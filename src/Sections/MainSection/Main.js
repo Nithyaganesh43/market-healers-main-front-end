@@ -1,0 +1,180 @@
+import React from 'react';
+import styled from 'styled-components';
+import ServiceCard from '../../components/ServiceCard/index';
+import './Main.css';
+const HomeSection = styled.section`
+  width: 100vw;
+  padding-right: 10%;
+  padding-left: 10%;
+  height: auto;
+  background-color: #0a0b10;
+  display: flex;
+  justify-content: center;
+  position: relative;
+
+  @media only screen and (max-width: 48em) {
+    display: block;
+    padding-right: 0%;
+    padding-left: 4%;
+    height: 100vh;
+  }
+`;
+
+const MainContent = styled.div`
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  width: 90%;
+  max-width: 1200px;
+  margin: 50px auto;
+  gap: 2rem;
+
+  @media only screen and (max-width: 48em) {
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    margin: 0;
+  }
+`;
+
+const Lb = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 30%;
+  line-height: 1.5;
+  color: var(--white);
+  position: relative;
+  z-index: 15;
+
+  @media only screen and (max-width: 48em) {
+    width: 80%;
+    text-align: center;
+    align-items: center;
+    justify-content: space-around;
+    margin-top: 1rem;
+  }
+`;
+
+const Title = styled.h1`
+  line-height: 1.2;
+  padding: 0.5rem 0;
+  font-size: calc(5rem + 1.5vw);
+
+  @media only screen and (max-width: 48em) {
+    font-size: calc(2rem + 1.5vw);
+  }
+`;
+
+const SubText = styled.h5`
+  color: rgb(207, 207, 207);
+  font-size: calc(3rem + 0.5vw);
+
+  @media only screen and (max-width: 48em) {
+    font-size: calc(0.8rem + 0.5vw);
+  }
+`;
+
+const Card = styled.div`
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 15px;
+  justify-content: space-around;
+
+  @media only screen and (max-width: 48em) {
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 1rem;
+
+    margin: 15px;
+    margin-top: 150px;
+    width: 90%;
+  }
+
+  @media only screen and (max-width: 30em) {
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 1rem 0;
+    margin: 15px;
+    margin-top: 100px;
+    width: 90%;
+  }
+`;
+
+const CardContainer = styled.div`
+  .container {
+    position: relative;
+    width: 190px;
+    height: 254px;
+    transition: transform 200ms ease-in-out;
+
+    @media only screen and (max-width: 48em) {
+      width: 140px;
+      height: 200px;
+    }
+
+    @media only screen and (max-width: 30em) {
+      width: 120px;
+      height: 180px;
+    }
+  }
+
+  .container:active {
+    transform: scale(0.95); /* Avoid layout shift */
+  }
+`;
+
+const HeroSection = () => {
+  return (
+    <HomeSection>
+      <MainContent>
+        <Lb>
+          <Title>Welcome</Title>
+          <SubText>We're Here to Guide You</SubText>{' '}
+        
+            <div class="card">
+              <div class="loader">
+                <p>Explore Our Services</p>
+                <div class="words">
+                  <span class="word">Market Data</span>
+                  <span class="word">Market Data</span>
+                  <span class="word">News</span>
+                  <span class="word">Calculator</span>
+                  <span class="word">Cources</span>
+                </div>
+              </div>
+            </div>
+         
+        </Lb>
+        <Card>
+          <CardContainer>
+            <ServiceCard
+              onClick={() => {
+                window.location.href = '/news';
+              }}
+              data={{ prompt: 'Today News', text: 'Click To Read' }}
+            />
+          </CardContainer>
+          <CardContainer>
+            <ServiceCard
+              onClick={() => {
+                window.location.href = '/market';
+              }}
+              data={{ prompt: 'Live Market Values', text: 'Click To Read' }}
+            />
+          </CardContainer>
+          <CardContainer>
+            <ServiceCard
+              data={{ prompt: 'Calculators', text: 'Coming Soon...' }}
+            />
+          </CardContainer>
+          <CardContainer>
+            <ServiceCard
+              data={{ prompt: 'Online Courses', text: 'Coming Soon...' }}
+            />
+          </CardContainer>
+        </Card>
+      </MainContent>
+    </HomeSection>
+  );
+};
+
+export default HeroSection;

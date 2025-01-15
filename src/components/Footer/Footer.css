@@ -1,0 +1,33 @@
+
+.footer {
+  background-color: black;
+  color: white;
+  text-align: center;
+  padding: 8px 0;
+  margin-left: 2%;
+}
+
+.linkedin-link {
+  color: white;
+  text-decoration: none;
+}
+
+.linkedin-icon {
+  vertical-align: middle;
+  width: 16px; 
+  height: 16px; 
+}
+
+
+@media (max-width: 768px) {
+ a {
+    font-size: 10px;
+}.linkedin-icon {
+  vertical-align: middle;
+  width: 10px; 
+  height: 10px; 
+}
+
+}
+
+

@@ -1,0 +1,98 @@
+body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    background-color: rgb(25, 25, 25);
+    color: aliceblue;
+}
+
+.card {
+    background-color: rgb(29, 29, 29);
+    border-radius: 8px;
+     margin-bottom: 1rem; 
+    padding: 15px;  
+    box-sizing: border-box;
+ @media only screen and (max-width: 768px) {
+    margin-bottom: -10rem;     
+        
+  }
+
+  @media only screen and (max-width: 480px) {
+    margin-bottom: -9rem;     
+
+  }
+
+    transition: all 1s ease-in-out;
+    box-shadow: 0px 0px 5px white;
+}
+ 
+.card img {
+    width: 100%;
+    border-radius: 10px;
+    object-fit: cover;
+}
+
+
+.card-heading {
+    font-size: 22px;
+    font-weight: bold;  
+    color: #8f8e8e;margin: 10px 0;
+}
+
+.card-description {
+    font-size: 18px;
+    line-height: 1.6; 
+    color: #e6e5e5;margin: 10px 0;
+}
+
+.card-meta {
+    font-weight: 600;
+    color: #f5f3f3;
+    font-size: 14px; margin: 10px 0;
+}
+
+.card-link {
+    color: #e8a1ff;
+    text-decoration: none;
+    font-weight: bold;margin: 10px 0;
+    font-size: 14px; 
+}
+
+.card-link:hover {
+    text-decoration: underline;
+}
+
+@media only screen and (max-width: 768px) {
+    .card {
+        padding: 10px;
+    }
+    .card-heading {
+        font-size: 24px;
+    }
+    .card-description {
+        font-size: 16px;
+    }
+    .card-meta {
+        font-size: 16px;
+    }
+    .card-link {
+        font-size: 16px;
+    }
+}
+
+@media only screen and (max-width: 480px) {
+    .card {
+        padding: 10px;
+    }
+    .card-heading {
+        font-size: 12px;
+    }
+    .card-description {
+        font-size: 12px;
+    }
+    .card-meta {
+        font-size: 8px;
+    }
+    .card-link {
+        font-size: 8px;
+    } 
+}
