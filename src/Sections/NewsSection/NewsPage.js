@@ -1,14 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import styled, { keyframes } from 'styled-components';
-import './NewsPage.css';
+import styled  from 'styled-components';
+ 
 import NewsCardSet from '../../components/NewsCardSet';
-
-const animateGradient = keyframes`
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
-`;
-
+ 
 const HomeSection = styled.section`
   width: 100%;
   min-height: 100vh;
@@ -17,9 +11,7 @@ const HomeSection = styled.section`
   background-size: 400% 400%;
   display: flex;
   justify-content: center;
-  align-items: flex-start;
-  animation: ${animateGradient} 8s ease infinite;
-  transition: background-position 0.2s ease;
+  align-items: flex-start;  
 `;
 
 const MainContent = styled.div`
@@ -30,7 +22,7 @@ const MainContent = styled.div`
   flex-direction: column;
 
   @media only screen and (max-width: 48em) {
-    margin: 20px auto;
+    margin: auto ;
   }
 `;
 
@@ -42,21 +34,19 @@ const NewsGrid = styled.div`
   width: 90%;
 
   @media only screen and (max-width: 768px) {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1rem 1rem;
-    margin-top: 0rem;
-    margin-left: -10rem;
-    width: 100%;
-    justify-items: center;
+    grid-template-columns: repeat(1, 1fr);
+margin-top: -40vh;
+    margin-left: -35vw;
   }
+  
 
   @media only screen and (max-width: 480px) {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 0rem 1rem;
-    margin-top: -5rem;
-    margin-left: -4.5rem;
-    width: 100%;
-    justify-items: center;
+    display: flex;
+    flex-direction: column;
+    margin-top: -5vh;
+    padding: 0;
+    margin-bottom: 10rem;
+    margin-left: -36vw;
   }
 `;
 
@@ -67,54 +57,59 @@ const Title = styled.h1`
   color: white;
 
   @media only screen and (max-width: 48em) {
-    font-size: calc(1.5rem + 1vw);
+    font-size: calc(1rem + 1vw);
   }
 `;
 
  
 
-const NewsPage = () => {
-  const [gradientPosition, setGradientPosition] = useState({ x: 50, y: 50 });
+const NewsPage = () => { 
   const [NewsData, setNewsData] = useState([]);
 
   useEffect(() => {
-    getNewsData();
+    getNewsData(); 
+  },[]);
+function isThisToday(dateStr) {
+  let today = new Date();
+  let date = new Date(dateStr.split('-').reverse().join('-'));
+  return today.toDateString() === date.toDateString();
+}
 
-    const handleMouseMove = (e) => {
-      const x = e.clientX / window.innerWidth;
-      const y = e.clientY / window.innerHeight;
-      setGradientPosition({ x, y });
-    };
+async function getNewsData() {
+  try{
+let news = localStorage.getItem('news');
+  news = await JSON.parse(news);
+   if (isThisToday(news.data.lastUpdated.date)) {
+     setNewsData(Object.values(news.data.data));
+ localStorage.setItem('news', JSON.stringify(news));
+   }
+   else{
+    throw new Error("");
+   }
+  }catch{ 
+ let data = await fetch(
+   'https://server.markethealers.com/MarketHealers/getNewsData'
+ );
+ data = await data.json();
+ localStorage.setItem('news', JSON.stringify(data));
 
-    window.addEventListener('mousemove', handleMouseMove);
-    return () => window.removeEventListener('mousemove', handleMouseMove);
-  }, []);
-
-  async function getNewsData() {
-    let data = await fetch(
-      'https://server.markethealers.com/MarketHealers/getNewsData'
-    );
-    data = await data.json();
-    setNewsData(Object.values(data.data.data));
-  }
-
-  let index = 1;
+ setNewsData(Object.values(data.data.data));
+   
+  }  
+}
+      
  
   return (
-    <HomeSection
-      style={{
-        background: `radial-gradient(circle at ${gradientPosition.x}% ${gradientPosition.y}%,rgb(34, 4, 55), #000000)`,
-        backgroundSize: '300% 300%',
-      }}>
+    <HomeSection >
       <MainContent>
         <Title>Market Healers News</Title>
 
         <NewsGrid>
-          {Object.entries(NewsData).map(([key, value]) => {
-            return (
+          {Object.entries(NewsData).map(([key, value]) => { 
+            return (  
               <NewsCardSet
-                key={index++}
-                data={{ topic: value.topic, news: value.data }}
+                key={key}
+                data={{  news: value }}
               />
             );
           })}

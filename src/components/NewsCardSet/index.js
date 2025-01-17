@@ -1,15 +1,14 @@
  
 import NewsCard from './NewsCard/index';
-
+ 
 const NewsCardSet = (data)=>{
- const {news , topic } = data.data;
-  
+ const {news } = data.data; 
+ 
   return (
-    <div>
-      
-        {Object.entries(news).map(([key, value]) => {
-          
-          return (
+    <div> 
+        {Object.entries(news[0]).map(([key, value]) => {
+        
+          return(
             <NewsCard
               data={{
                 content: value.content,
