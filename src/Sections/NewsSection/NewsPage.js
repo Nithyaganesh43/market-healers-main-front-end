@@ -87,8 +87,7 @@ const NewsPage = () => {
       }
     }
 
-    try { 
-      console.log("ghjk")
+    try {   
       let data = await fetch(
         'https://server.markethealers.com/MarketHealers/getNewsData'
       );
@@ -101,7 +100,7 @@ const NewsPage = () => {
     } catch (error) {
       console.error('Error fetching news data:', error);
     }
-  }
+  }   
   return (
     <HomeSection>
       <MainContent>
