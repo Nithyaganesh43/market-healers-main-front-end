@@ -1,17 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import styled  from 'styled-components';
- 
-import NewsCardSet from '../../components/NewsCardSet';
- 
+import styled from 'styled-components';  
+import NewsCard from '../../components/NewsCard/NewsCard';
 const HomeSection = styled.section`
   width: 100%;
   min-height: 100vh;
   padding: 0 5%;
-  background: linear-gradient(270deg,rgb(65, 10, 105), #000000);
+  background: linear-gradient(270deg, rgb(65, 10, 105), #000000);
   background-size: 400% 400%;
   display: flex;
   justify-content: center;
-  align-items: flex-start;  
+  align-items: flex-start;
 `;
 
 const MainContent = styled.div`
@@ -22,28 +20,27 @@ const MainContent = styled.div`
   flex-direction: column;
 
   @media only screen and (max-width: 48em) {
-    margin: auto ;
+    margin: auto;
   }
 `;
 
 const NewsGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 3rem 9rem; /* Set vertical gap to 0rem */
+  gap: 0rem 8rem;  
   margin-top: 5rem;
   width: 90%;
 
   @media only screen and (max-width: 768px) {
     grid-template-columns: repeat(1, 1fr);
-margin-top: -40vh;
-    margin-left: -35vw;
+    margin-top: -30vw;
+    margin-left: -40vw;
   }
-  
 
   @media only screen and (max-width: 480px) {
     display: flex;
     flex-direction: column;
-    margin-top: -5vh;
+    margin-top: -30vw;
     padding: 0;
     margin-bottom: 10rem;
     margin-left: -36vw;
@@ -61,57 +58,79 @@ const Title = styled.h1`
   }
 `;
 
- 
-
-const NewsPage = () => { 
-  const [NewsData, setNewsData] = useState([]);
-
-  useEffect(() => {
-    getNewsData(); 
-  },[]);
 function isThisToday(dateStr) {
   let today = new Date();
   let date = new Date(dateStr.split('-').reverse().join('-'));
   return today.toDateString() === date.toDateString();
 }
 
-async function getNewsData() {
-  try{
-let news = localStorage.getItem('news');
-  news = await JSON.parse(news);
-   if (isThisToday(news.data.lastUpdated.date)) {
-     setNewsData(Object.values(news.data.data));
- localStorage.setItem('news', JSON.stringify(news));
-   }
-   else{
-    throw new Error("");
-   }
-  }catch{ 
- let data = await fetch(
-   'https://server.markethealers.com/MarketHealers/getNewsData'
- );
- data = await data.json();
- localStorage.setItem('news', JSON.stringify(data));
+const NewsPage = () => {
+  const [NewsData, setNewsData] = useState([]);
 
- setNewsData(Object.values(data.data.data));
-   
-  }  
-}
-      
- 
+  useEffect(() => {
+    const fetchData = async () => {
+      await getNewsData();
+    };
+    fetchData();
+  }, []);
+  async function getNewsData() {
+    let news = localStorage.getItem('news');
+    if (news) { 
+      try {
+        news = JSON.parse(news); 
+        if (news && isThisToday(news.data.lastUpdated.date)) {
+          setNewsData(Object.values(news.data.data));
+          return;
+        } 
+      } catch (e) {
+        console.error('Error parsing localStorage news data:', e);
+      }
+    }
+
+    try { 
+      console.log("ghjk")
+      let data = await fetch(
+        'https://server.markethealers.com/MarketHealers/getNewsData'
+      );
+      if (!data.ok) {
+        throw new Error('Failed to fetch news data');
+      }
+      data = await data.json();
+      localStorage.setItem('news', JSON.stringify(data));
+      setNewsData(Object.values(data.data.data));
+    } catch (error) {
+      console.error('Error fetching news data:', error);
+    }
+  }
   return (
-    <HomeSection >
+    <HomeSection>
       <MainContent>
         <Title>Market Healers News</Title>
 
         <NewsGrid>
-          {Object.entries(NewsData).map(([key, value]) => { 
-            return (  
-              <NewsCardSet
-                key={key}
-                data={{  news: value }}
-              />
-            );
+          {Object.values(NewsData).map((value, key) => {
+            if(value[0]){
+              {
+              return  Object.entries(value[0]).map(([ky, val]) => {
+                  
+                  return (
+                    <NewsCard
+                      key={ky}
+                      data={{
+                        content: val.content,
+                        description: val.description,
+                        image: val.image,
+                        publishedAt: val.publishedAt,
+                        source: val.source,
+                        title: val.title,
+                        url: val.url,
+                      }}
+                    />
+                  );
+                });
+              }
+            }
+            
           })}
         </NewsGrid>
       </MainContent>

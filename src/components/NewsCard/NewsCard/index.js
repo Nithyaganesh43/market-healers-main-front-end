@@ -1,7 +1,7 @@
 import './styles.css';
 
-const NewsCard = (data) => {
-  const { description, image, publishedAt, source, title, url } = data.data;
+const NewsCard = (data) => {  
+  const { description, image, publishedAt,   title, url } = data.data;
  function toReadableDate(dateStr) {
    const options = {
      year: 'numeric',
