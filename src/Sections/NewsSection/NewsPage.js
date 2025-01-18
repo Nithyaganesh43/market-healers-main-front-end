@@ -33,14 +33,14 @@ const NewsGrid = styled.div`
 
   @media only screen and (max-width: 768px) {
     grid-template-columns: repeat(1, 1fr);
-    margin-top: -30vw;
-    margin-left: -40vw;
+    margin-top: -50vw;
+    margin-left: -35vw;
   }
 
   @media only screen and (max-width: 480px) {
     display: flex;
     flex-direction: column;
-    margin-top: -30vw;
+    margin-top: -70vw;
     padding: 0;
     margin-bottom: 10rem;
     margin-left: -36vw;

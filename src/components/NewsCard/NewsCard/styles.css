@@ -57,9 +57,12 @@ body {
 
 @media only screen and (max-width: 768px) {
        .card {
-         margin :-50vw 0vw; 
-        padding: 25px; 
+         margin :0;
+        padding: 20px; 
         text-align: justify;
+        height: 250vw;
+        overflow: scroll;
+        margin-bottom: -120vw;
     }
     .card-heading {
         font-size: 10vw;
@@ -77,9 +80,13 @@ body {
 
 @media only screen and (max-width: 480px) {
     .card {
-         margin :-55vw 0vw; 
+         margin :0;
         padding: 20px; 
         text-align: justify;
+        height: 300vw;
+        overflow: scroll;
+        margin-bottom: -145vw;
+
     }
     .card-heading {
         font-size: 10vw;
