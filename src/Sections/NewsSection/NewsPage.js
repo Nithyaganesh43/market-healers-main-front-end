@@ -101,6 +101,8 @@ const NewsPage = () => {
       console.error('Error fetching news data:', error);
     }
   }   
+
+  
   return (
     <HomeSection>
       <MainContent>
