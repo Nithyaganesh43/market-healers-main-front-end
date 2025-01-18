@@ -15,11 +15,13 @@ const convertToIST = (timestamp) => {
 
 const MarketValueCardSet = ({ value }) => {
   const { meta, values } = value.value;
-
-  const [currentIndex, setCurrentIndex] = useState(0);
+  value.Market = true;
+  const [currentIndex, setCurrentIndex] = useState(
+    Number(localStorage.getItem('index'))
+  );
   const [latestData, setLatestData] = useState({});
   const [randomizedData, setRandomizedData] = useState({});
-  const [prevCloseValue, setPrevCloseValue] = useState(null);
+  const [prevCloseValue, setPrevCloseValue] = useState(0);
   const [closeColor, setCloseColor] = useState('neutral');
 
   const getValueOrDefault = (value) =>
@@ -36,9 +38,10 @@ const MarketValueCardSet = ({ value }) => {
     setLatestData(realData);
     setRandomizedData(realData);
     if (currentIndex < values.timestamp.length - 1) {
-      setCurrentIndex(currentIndex + 1);
+      setCurrentIndex((prevIndex) => prevIndex + 1);
     }
   };
+
   const updateLastData = () => {
     const realData = {
       time: convertToIST(values.timestamp[values.timestamp.length - 1]),
@@ -67,6 +70,7 @@ const MarketValueCardSet = ({ value }) => {
       ),
     };
     setRandomizedData(alteredData);
+
     if (prevCloseValue !== null) {
       if (parseFloat(alteredData.close) > prevCloseValue) {
         setCloseColor('green');

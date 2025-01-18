@@ -1,7 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import MarketValueCardSet from '../../components/MarketValueCardSet';
-
+import {
+  getLastMarketClosedDateAndTime,
+  fetchMarketValueData,
+} from '../../Helper/MarketPageHelper';
+import Load from '../../Loader/Load';
 const HomeSection = styled.section`
   width: 100%;
   min-height: 100vh;
@@ -64,101 +68,74 @@ const SubText = styled.h5`
   }
 `;
 
-const LoadingMessage = styled.div`
-  text-align: center;
-  font-size: 1.2rem;
-  color: white;
-  margin-top: 2rem;
-`;
-
 const NoDataMessage = styled.div`
   text-align: center;
   font-size: 1.2rem;
   color: rgb(200, 50, 50);
   margin-top: 2rem;
 `;
-
+const setIntervalForFetch = (min, ind, setIsLoading,setMarketValueData) => {
+  localStorage.setItem('index', ind);
+  setInterval(() => {
+    fetchMarketValueData(setIsLoading, setMarketValueData);
+  }, min * 60 * 1000);
+}; 
 const MarketPage = () => {
   const [marketValueData, setMarketValueData] = useState({});
   const [isLoading, setIsLoading] = useState(true);
-const convertToIST = (timestamp) => {
-  const date = new Date(timestamp * 1000);
-  const options = { timeZone: 'Asia/Kolkata' };
-  const istDate = new Date(date.toLocaleString('en-US', options));
-
-  const day = istDate.getDate();
-  const suffix =
-    day % 10 === 1 && day !== 11
-      ? 'st'
-      : day % 10 === 2 && day !== 12
-      ? 'nd'
-      : day % 10 === 3 && day !== 13
-      ? 'rd'
-      : 'th';
-  const month = istDate.toLocaleString('en-US', {
-    month: 'long',
-    timeZone: 'Asia/Kolkata',
-  });
-  const year = istDate.getFullYear();
-  const hours = istDate.getHours();
-  const minutes = String(istDate.getMinutes()).padStart(2, '0');
-  const period = hours >= 12 ? 'PM' : 'AM';
-  const hour12 = hours % 12 || 12;
-
-  return `${day}${suffix} ${month} ${year} at ${hour12}:${minutes} ${period}`;
-};
-
 
   useEffect(() => {
-    fetchMarketValueData();
-    const intervalId = setInterval(() => {
-      fetchMarketValueData();
-    }, 900000);
-
-    return () => clearInterval(intervalId);
+    fetchDataInit();
   }, []);
 
-  async function fetchMarketValueData() {
-    setIsLoading(true);
-    try {
-      const response = await fetch(
-        'https://server.markethealers.com/markethealers/getMarketdata'
-      );
-      if (!response.ok) throw new Error('Failed to fetch market data');
-      const data = await response.json();
-      setMarketValueData(data?.data || {});
-    } catch (error) {
-      console.error('Error fetching market data:', error.message);
-      setMarketValueData({ error: 'Something Went Wrong' });
-    } finally {
-      setIsLoading(false);
+  async function fetchDataInit() {
+    let index = await fetchMarketValueData(setIsLoading, setMarketValueData);
+    
+//if the request is made perfectly on 15min after the last updated time new request need to be made
+//and so on after 15min data updated perolery 
+    if (index >= 15) {
+      await fetchMarketValueData(setIsLoading, setMarketValueData);
+      let ind = 0;
+      setIntervalForFetch(15, ind, setIsLoading, setMarketValueData);
+    } 
+    //in this case request to server made just after the server updated the data 
+    //so intervaly we can request 
+    else if (index == 0) {  
+      setIntervalForFetch(15, index,setIsLoading, setMarketValueData);
     }
-  }  
-   
-function getLastMarketClosedDateAndTime() {
-  if (!marketValueData?.data?.[0]?.values?.timestamp?.length) {
-    return 'Unavailable';
+//if the request is made inbetween then initialy we need to skip the index 
+//which is already time gone so we have >15 <0 elements to display initialy 
+//after that few we can continue with interval
+     else if (index < 15 && index > 0) {
+      localStorage.setItem('index', index);
+      setTimeout(async() => {
+       await fetchMarketValueData(setIsLoading, setMarketValueData);
+        setInterval(() => {
+          fetchMarketValueData(setIsLoading, setMarketValueData);
+        }, 15 * 60 * 1000);
+      }, (15 - index) * 60 * 1000);
+    } else { 
+       setIntervalForFetch(15,0); 
+    }
   }
-  return convertToIST(
-    marketValueData.data[0].values.timestamp[
-      marketValueData.data[0].values.timestamp.length - 1
-    ]
-  );
-}
 
   return (
     <HomeSection>
       <MainContent>
-        <Title>Market Healers Market Value</Title>
-         
+        {isLoading ? '' : <Title>Market Healers Market Value</Title>}
+
         <SubText>
-          {marketValueData?.isMarketOpen
+          {isLoading
+            ? ''
+            : marketValueData?.isMarketOpen
             ? 'Market is open. Check current values here.'
-            : `The market is currently closed. Please visit us again when it reopens. Last closed on ${getLastMarketClosedDateAndTime()}`}
+            : `The market is currently closed. Please visit us again when it reopens. Last closed on ${
+                getLastMarketClosedDateAndTime(marketValueData) || '--'
+              }`}
         </SubText>
 
         {isLoading ? (
-          <LoadingMessage>Loading market data...</LoadingMessage>
+          <Load />
         ) : marketValueData?.data &&
           Object.keys(marketValueData.data).length > 0 ? (
           <MarketValueGrid>

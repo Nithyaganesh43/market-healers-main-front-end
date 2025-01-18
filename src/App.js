@@ -11,7 +11,8 @@ const App = () => {
 
   
   const { loading } = useContext(LoadingContext);  
-console.log(loading)
+console.log(loading+"yes")
+
   return loading ? (
     <Load />
   ) : (

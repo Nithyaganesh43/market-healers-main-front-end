@@ -1,23 +1,15 @@
 import React from 'react';
-import { createBrowserRouter, RouterProvider, Outlet } from 'react-router-dom';
-
-import Contact from './components/Contact/index';
-import ReactDOM from 'react-dom/client'; 
-import Footer from './components/Footer';
-import { GlobalStyle } from './globalStyles';
-import Header from './components/Header/index';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { LoadingProvider } from './Context/LoadingContext';
+import ReactDOM from 'react-dom/client';  
 import Main from './Pages/Main';
 import News from './Pages/News';
 import Market from './Pages/Market';
-
+import App from './App';
 const RootApp = () => (
-  <> 
-    <GlobalStyle />
-    <Header />
-    <Outlet />
-    <Contact />
-    <Footer /> 
-  </>
+  <LoadingProvider> 
+    <App/>
+  </LoadingProvider>
 );
 
 const appRouter = createBrowserRouter([

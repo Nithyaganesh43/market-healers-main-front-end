@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';  
 import NewsCard from '../../components/NewsCard/NewsCard';
+import {getNewsData} from '../../Helper/LoadNewsData'; 
+import { useContext } from 'react';
+import { LoadingContext } from '../../Context/LoadingContext';
+
 const HomeSection = styled.section`
   width: 100%;
   min-height: 100vh;
@@ -57,50 +61,20 @@ const Title = styled.h1`
     font-size: calc(1rem + 1vw);
   }
 `;
-
-function isThisToday(dateStr) {
-  let today = new Date();
-  let date = new Date(dateStr.split('-').reverse().join('-'));
-  return today.toDateString() === date.toDateString();
-}
+ 
 
 const NewsPage = () => {
   const [NewsData, setNewsData] = useState([]);
-
+  
+  const {   setloading } = useContext(LoadingContext);
+  
   useEffect(() => {
     const fetchData = async () => {
-      await getNewsData();
+      await getNewsData(setNewsData, setloading);
     };
     fetchData();
   }, []);
-  async function getNewsData() {
-    let news = localStorage.getItem('news');
-    if (news) { 
-      try {
-        news = JSON.parse(news); 
-        if (news && isThisToday(news.data.lastUpdated.date)) {
-          setNewsData(Object.values(news.data.data));
-          return;
-        } 
-      } catch (e) {
-        console.error('Error parsing localStorage news data:', e);
-      }
-    }
-
-    try {   
-      let data = await fetch(
-        'https://server.markethealers.com/MarketHealers/getNewsData'
-      );
-      if (!data.ok) {
-        throw new Error('Failed to fetch news data');
-      }
-      data = await data.json();
-      localStorage.setItem('news', JSON.stringify(data));
-      setNewsData(Object.values(data.data.data));
-    } catch (error) {
-      console.error('Error fetching news data:', error);
-    }
-  }   
+ 
 
   
   return (
