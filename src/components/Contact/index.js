@@ -3,13 +3,12 @@
 import styled from 'styled-components';
 import './btn.css';
 const ContactSection = styled.section`
-
-  width: 100vw;
+  
+  overflow: hidden;
   padding: calc(2.5rem + 2.5vw) 0;
   background-color: #0a0b10;
   display: flex;
   flex-direction: column;
-  /* justify-content: center; */
   align-items: center;
   justify-content: center;
 `;
@@ -36,7 +35,7 @@ const Title = styled.h1`
 const Icons = styled.div`
   display: flex;
   cursor: pointer;
-  margin-bottom: 3rem;
+  margin-bottom: 2rem;
   a {
     &:hover {
       img {
@@ -45,11 +44,11 @@ const Icons = styled.div`
       }
     }
     &:not(:last-child) {
-      margin-right: 2rem;
+      margin-right: 1rem;
     }
     img {
-      width: 3rem;
-      height: 3rem;
+      width: 2.5rem;
+      height: 2.5rem;
     }
   }
 `;
@@ -76,7 +75,7 @@ const Form = styled.form`
       opacity: 0.6;
     }
     &[name='name'] {
-      margin-right: 2rem;
+      margin-right: 0rem;
     }
   }
   textarea {
