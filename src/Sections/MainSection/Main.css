@@ -17,6 +17,7 @@
   display: -ms-flexbox;
   display: flex;
   border-radius: 8px;
+  justify-content: center;
 }
 .loader  p{
     display: flex;
@@ -93,15 +94,51 @@
     transform: translateY(-400%);
   }
 }
+
 @media (max-width: 768px) {
-  .card {
+    
+  .card { 
     width: 200%;
     margin-left: 0%;
     transform: scale(0.5); 
   }
-  .loader {
-    font-size: 25.5px;  
-    height: 40px;      
+  .loader  {  
+    height: 11vh;      
   
+  }
+   .loader , .loader p{
+    font-size: 7vw;
+  }
+}
+
+@media (max-width: 480px) {
+    
+  .card { 
+    width: 200%;
+    margin-left: 0%;
+    transform: scale(0.5); 
+  }
+  .loader  {  
+    height: 10vh;      
+  
+  }
+   .loader , .loader p{
+    font-size: 8vw;
+  }
+}
+
+@media (max-width: 380px) {
+    
+  .card { 
+    width: 200%;
+    margin-left: 0%; 
+    transform: scale(0.5); 
+  }
+  .loader  {  
+    height: 4vh;      
+  
+  }
+   .loader , .loader p{
+    font-size: 8vw;
   }
 }

@@ -12,8 +12,8 @@ const HomeSection = styled.section`
   justify-content: center;
   position: relative;
 
-  @media only screen and (max-width: 48em) {
-    display: block;
+  @media only screen and (max-width: 480px) {
+     
     padding-right: 0%;
     padding-left: 4%;
     height: 100vh;
@@ -82,19 +82,18 @@ const Card = styled.div`
   justify-content: space-around;
 
   @media only screen and (max-width: 48em) {
-    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    grid-template-columns: repeat(2, minmax(120px, 1fr));
     gap: 1rem;
 
     margin: 15px;
-    margin-top: 150px;
+    margin-top: 50vw;
     width: 90%;
   }
 
   @media only screen and (max-width: 30em) {
-    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-    gap: 1rem 0;
-    margin: 15px;
-    margin-top: 100px;
+    grid-template-columns: repeat(2, minmax(120px, 1fr));
+
+    margin-top: 50vw;
     width: 90%;
   }
 `;
@@ -106,14 +105,16 @@ const CardContainer = styled.div`
     height: 254px;
     transition: transform 200ms ease-in-out;
 
-    @media only screen and (max-width: 48em) {
-      width: 140px;
-      height: 200px;
+    @media only screen and (max-width: 42em) {
+      width: 35vw;
+      height: 180px;
+      background-color:rgb(40, 71, 225);
     }
 
     @media only screen and (max-width: 30em) {
-      width: 120px;
-      height: 180px;
+      width: 40vw;
+      height: 170px;
+      background-color:rgb(8, 166, 39);
     }
   }
 
