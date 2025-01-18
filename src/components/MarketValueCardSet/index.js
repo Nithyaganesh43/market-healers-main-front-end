@@ -37,6 +37,7 @@ const MarketValueCardSet = ({ value }) => {
     };
     setLatestData(realData);
     setRandomizedData(realData);
+    setPrevCloseValue(parseFloat(realData.close));
     if (currentIndex < values.timestamp.length - 1) {
       setCurrentIndex((prevIndex) => prevIndex + 1);
     }
@@ -54,19 +55,40 @@ const MarketValueCardSet = ({ value }) => {
   };
 
   const applyRandomChanges = () => {
-    if (currentIndex > 13) {
+    if (currentIndex > 14) {
       setCloseColor('neutral');
       return;
-    }
+    } 
 
-    const getRandomChange = () => (Math.random() * 2 - 1) * 0.2;
+  function calculateParityValue(num) {
+    const inVal = Math.floor((num - Math.floor(num)) * 10) % 10;
+    const now = new Date();
+    const seconds = now.getSeconds() * 0.001;  
+
+     
+    const arr = [
+      -0.573, 0.134, -0.934, 0.547, -0.247, 0.872, 0.254, -0.651, 0.989, -0.342,
+    ];
+
+    
+    return arr[inVal] + (inVal + (arr[inVal] % 2) === 0 ? 0 : -seconds);
+  }
+
+ 
+
     const alteredData = {
       ...latestData,
-      high: getValueOrDefault(parseFloat(latestData.high) + getRandomChange()),
-      low: getValueOrDefault(parseFloat(latestData.low) + getRandomChange()),
-      open: getValueOrDefault(parseFloat(latestData.open) + getRandomChange()),
+      high: getValueOrDefault(
+        parseFloat(latestData.high) + calculateParityValue(latestData.high)
+      ),
+      low: getValueOrDefault(
+        parseFloat(latestData.low) + calculateParityValue(latestData.low)
+      ),
+      open: getValueOrDefault(
+        parseFloat(latestData.open) + calculateParityValue(latestData.open)
+      ),
       close: getValueOrDefault(
-        parseFloat(latestData.close) + getRandomChange()
+        parseFloat(latestData.close) + calculateParityValue(latestData.close) 
       ),
     };
     setRandomizedData(alteredData);
@@ -80,7 +102,6 @@ const MarketValueCardSet = ({ value }) => {
         setCloseColor('neutral');
       }
     }
-    setPrevCloseValue(parseFloat(alteredData.close));
   };
 
   useEffect(() => {

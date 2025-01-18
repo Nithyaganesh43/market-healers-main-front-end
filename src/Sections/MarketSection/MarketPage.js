@@ -74,6 +74,8 @@ const NoDataMessage = styled.div`
   color: rgb(200, 50, 50);
   margin-top: 2rem;
 `;
+ 
+
 const setIntervalForFetch = (min, ind, setIsLoading,setMarketValueData) => {
   localStorage.setItem('index', ind);
   setInterval(() => {
