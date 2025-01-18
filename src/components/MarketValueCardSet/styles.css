@@ -10,7 +10,7 @@
   --dynamic-data-text: #e0e0e0;
   --label-color: #888888;
 }
- 
+
 body {
   margin: 0;
   padding: 0;
@@ -26,7 +26,7 @@ body {
   border: 1px solid var(--border-color);
   background-color: var(--card-background-color);
   box-shadow: 0 4px 6px var(--shadow-color);
-  padding: 10px; 
+  padding: 10px;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   display: flex;
   flex-direction: column;
@@ -52,14 +52,13 @@ span.time {
   margin-bottom: 15px;
 }
 
-/* Dynamic Data Grid */
 .dynamic-data {
   background-color: var(--dynamic-data-bg);
   border-radius: 8px;
   padding: 15px;
   margin-bottom: 15px;
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  display: flex;
+  flex-direction: column;
   gap: 15px;
 }
 
@@ -74,22 +73,21 @@ span.time {
   color: var(--dynamic-data-text);
 }
 
-/* Label and Value Styling */
 .dynamic-data .data-item {
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
+  justify-content: space-between;
 }
 
-.dynamic-data .data-item span {
-  font-size: 1rem;
+.dynamic-data .data-item span:nth-child(2) {
+  text-align: right;
 }
 
-/* Static Info */
 p {
   margin: 8px 0;
   font-size: 0.95rem;
   line-height: 1.4;
+  display: flex;
+  justify-content: space-between;
 }
 
 p .label {
@@ -97,7 +95,10 @@ p .label {
   color: var(--label-color);
 }
 
-/* Responsive Design */
+p span {
+  color: var(--dynamic-data-text);
+}
+
 .container {
   display: flex;
   flex-wrap: wrap;
@@ -105,6 +106,7 @@ p .label {
   gap: 16px;
   padding: 10px;
 }
+
 
 @media (max-width: 768px) {
   #MarketValueCard {
@@ -124,14 +126,14 @@ p .label {
     font-size: 1rem;
   }
 
-.dynamic-data {
-   grid-template-columns: repeat(2, 1fr);
-  gap: 15px;
-  margin: 0;
+  .dynamic-data {
+    gap: 15px;
+    margin: 0;
   }
+
   .dynamic-data .data-item span {
-  font-size: 1rem;
-}
+    font-size: 1rem;
+  }
 }
 
 @media (max-width: 480px) {
@@ -141,27 +143,32 @@ p .label {
   }
 
   h3.company-name {
-    font-size: 0.8rem;
+    font-size: 18px;
   }
 
   span.time {
-    font-size: 0.5rem;
+    font-size: 10px;
   }
 
   p {
-    font-size: 0.5rem;
+    font-size: 10px;
   }
 
   .dynamic-data {
-   grid-template-columns: repeat(2, 1fr);
-  gap: 15px;
+    gap: 10px;
   }
 
-  
   .dynamic-data .data-item span {
-  font-size: 0.5rem;
+    font-size: 10px;
+  }
 }
-}
+
+
+
+
+
+
+
 .close-value {
   font-size: 1.2rem;
   font-weight: bold;
