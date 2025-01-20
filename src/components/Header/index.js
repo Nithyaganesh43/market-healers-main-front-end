@@ -1,6 +1,4 @@
-import { Link } from 'react-router-dom';
-import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { Link } from 'react-router-dom'; 
 import { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 
@@ -127,7 +125,7 @@ const HamburgerBtn = styled.button`
     top: ${(props) => (props.clicked ? '0' : '0.5rem')};
     transform: ${(props) => (props.clicked ? 'rotate(-135deg)' : 'rotate(0)')};
   }
-  @media only Screen and (min-width: 48em) {
+  @media only Screen and (min-width: 76em) {
     display: none;
   }
 `;
@@ -142,12 +140,14 @@ const MobileMenu = styled.nav`
   position: fixed;
   top: 10%;
   right: 10%;
+  font-size:18px;
   border-radius: 20px;
   z-index: ${(props) => (props.clicked ? '1000' : '-1')};
   background-color: rgba(53, 53, 63, 0.95);
   transition: opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
   a {
     font-weight: 600;
+    font-size:1.3rem;
     line-height: 1.5;
     color: var(--white);
     text-decoration: none;
@@ -170,7 +170,7 @@ const MobileMenu = styled.nav`
       transform: scale(1.05);
     }
   }
-  @media only Screen and (min-width: 48em) {
+  @media only Screen and (min-width: 76em) {
     display: none;
   }
 `;

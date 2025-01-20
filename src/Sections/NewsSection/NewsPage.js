@@ -31,23 +31,23 @@ const MainContent = styled.div`
 const NewsGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 0rem 8rem;  
-  margin-top: 5rem;
+  gap: 0rem 1rem;  
+  margin-top: 1rem;
   width: 90%;
 
   @media only screen and (max-width: 768px) {
     grid-template-columns: repeat(1, 1fr);
-    margin-top: -50vw;
-    margin-left: -35vw;
+    margin-top: 5vw;
+    margin-left: 5vw;
   }
 
   @media only screen and (max-width: 480px) {
     display: flex;
     flex-direction: column;
-    margin-top: -70vw;
+    margin-top: 10vw;
     padding: 0;
     margin-bottom: 10rem;
-    margin-left: -36vw;
+    margin-left: 5vw;
   }
 `;
 

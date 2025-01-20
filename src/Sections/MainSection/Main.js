@@ -33,7 +33,8 @@ const MainContent = styled.div`
     flex-direction: column;
     align-items: center;
     width: 100%;
-    margin: 0;
+    margin: 0 0 10rem 0;
+    gap : 0rem;
   }
 `;
 
@@ -81,19 +82,26 @@ const Card = styled.div`
   gap: 15px;
   justify-content: space-around;
 
-  @media only screen and (max-width: 48em) {
+  @media (max-width: 768px) {
     grid-template-columns: repeat(2, minmax(120px, 1fr));
     gap: 1rem;
 
     margin: 15px;
-    margin-top: 50vw;
+    margin-top: 0vw;
     width: 90%;
   }
 
-  @media only screen and (max-width: 30em) {
+  @media (max-width: 480px) {
     grid-template-columns: repeat(2, minmax(120px, 1fr));
+    gap: 1rem;
+    margin: 15px;
+    margin-top: 0vw;
+    width: 90%;
+  }
 
-    margin-top: 50vw;
+  @media (max-width: 380px) {
+    grid-template-columns: repeat(2, minmax(120px, 1fr));
+    margin-top: 10vw;
     width: 90%;
   }
 `;
@@ -107,14 +115,12 @@ const CardContainer = styled.div`
 
     @media only screen and (max-width: 42em) {
       width: 35vw;
-      height: 180px;
-      background-color:rgb(40, 71, 225);
+      height: 180px; 
     }
 
     @media only screen and (max-width: 30em) {
       width: 40vw;
       height: 170px;
-      background-color:rgb(8, 166, 39);
     }
   }
 
@@ -131,8 +137,8 @@ const HeroSection = () => {
           <Title>Welcome</Title>
           <SubText>We're Here to Guide You</SubText>{' '}
         
-            <div class="card">
-              <div class="loader">
+            <div class="card123">
+              <div class="loader123">
                 <p>Explore Our Services</p>
                 <div class="words">
                   <span class="word">Market Data</span>

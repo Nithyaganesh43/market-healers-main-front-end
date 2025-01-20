@@ -1,12 +1,13 @@
  
-.card { 
+.card123 { 
   --bg-color: #212121;
-  background-color: rgb(137, 137, 137);
+  background-color: #212121;;
+  
   padding: 0.5rem 1rem;
   border-radius: 1.25rem;
   width: 150%;
 }
-.loader {
+.loader123 {
   font-family: "Poppins", sans-serif;
   font-weight: 500;
   font-size: 25px;
@@ -19,7 +20,7 @@
   border-radius: 8px;
   justify-content: center;
 }
-.loader  p{
+.loader123  p{
     display: flex;
      color: rgb(137, 137, 137);
   font-weight: 500;
@@ -96,49 +97,61 @@
 }
 
 @media (max-width: 768px) {
-    
-  .card { 
-    width: 200%;
+  
+  .card123 {  
+    width: 80vw;
     margin-left: 0%;
+    height: 14vh;
     transform: scale(0.5); 
   }
-  .loader  {  
-    height: 11vh;      
   
-  }
-   .loader , .loader p{
-    font-size: 7vw;
+    .loader123 p{
+  font-size: 4vw; 
+    margin-top: 1vh;
+   }
+   .loader123 .words {
+    font-size: 4vw;
+    height: 8vh;
+    margin-top: 1vh;
   }
 }
 
 @media (max-width: 480px) {
-    
-  .card { 
+  
+  .card123 { 
+    height: 12vh;
     width: 200%;
     margin-left: 0%;
     transform: scale(0.5); 
   }
-  .loader  {  
-    height: 10vh;      
-  
-  }
-   .loader , .loader p{
+   .loader123 p{
+  font-size: 8vw; 
+    margin-top: 1vh;
+   }
+   .loader123 .words {
     font-size: 8vw;
+    height: 8vh;
+    margin-top: 1vh;
   }
 }
 
 @media (max-width: 380px) {
     
-  .card { 
-    width: 200%;
-    margin-left: 0%; 
+  .card123 {  
+    margin-left: 0%;
+     
+    height: 12vh;
     transform: scale(0.5); 
   }
-  .loader  {  
-    height: 4vh;      
-  
-  }
-   .loader , .loader p{
+   .loader123 p{
+  font-size: 8vw; 
+    margin-top: 1vh;
+   }
+   .loader123 .words {
     font-size: 8vw;
+    height: 8vh;
+ 
+ 
+    margin-top: 1vh;
   }
 }

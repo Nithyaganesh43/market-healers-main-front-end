@@ -14,12 +14,12 @@ const NewsCard = (data) => {
    return new Date(dateStr).toLocaleString('en-US', options);
  }
   return (
-    <div className="card">
+    <div className="card456">
       <img src={image} alt="Image" />
-      <div className="card-heading">{title}</div>
-      <div className="card-description">{description}</div>
-      <div className="card-meta">{toReadableDate(publishedAt)}</div>
-      <a href={url} target="_blank" className="card-link">
+      <div className="card-heading456">{title}</div>
+      <div className="card-description456">{description}</div>
+      <div className="card-meta456">{toReadableDate(publishedAt)}</div>
+      <a href={url} target="_blank" className="card-link456">
         Read More
       </a>
     </div>
