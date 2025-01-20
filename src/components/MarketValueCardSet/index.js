@@ -15,7 +15,7 @@ const convertToIST = (timestamp) => {
 
 const MarketValueCardSet = ({ value }) => {
   const { meta, values } = value.value;
-  value.Market = true;
+  
   const [currentIndex, setCurrentIndex] = useState(
     Number(localStorage.getItem('index'))
   );
@@ -36,12 +36,13 @@ const MarketValueCardSet = ({ value }) => {
       close: getValueOrDefault(values.close[currentIndex]),
     };
     setLatestData(realData);
-    setRandomizedData(realData);
+    setRandomizedData(realData); 
     setPrevCloseValue(parseFloat(realData.close));
-    if (currentIndex < values.timestamp.length - 1) {
+    if (currentIndex < values.timestamp.length) {
       setCurrentIndex((prevIndex) => prevIndex + 1);
     }
-  };
+  }; 
+
 
   const updateLastData = () => {
     const realData = {
@@ -52,29 +53,41 @@ const MarketValueCardSet = ({ value }) => {
       close: getValueOrDefault(values.close[values.timestamp.length - 1]),
     };
     setRandomizedData(realData);
+    
   };
 
   const applyRandomChanges = () => {
-    if (currentIndex > 14) {
+    if (currentIndex > 15) { 
       setCloseColor('neutral');
       return;
-    } 
+    }
 
-  function calculateParityValue(num) {
-    const inVal = Math.floor((num - Math.floor(num)) * 10) % 10;
-    const now = new Date();
-    const seconds = now.getSeconds() * 0.001;  
-
-     
-    const arr = [
-      -0.573, 0.134, -0.934, 0.547, -0.247, 0.872, 0.254, -0.651, 0.989, -0.342,
-    ];
-
-    
-    return arr[inVal] + (inVal + (arr[inVal] % 2) === 0 ? 0 : -seconds);
-  }
-
- 
+    function calculateParityValue(num) {
+      const inValFilter = (num) =>
+        Number(
+          num
+            .toString()
+            .replace(/[^1-9]/g, '')
+            .slice(-3)
+            .slice(-1)
+        );
+      const inVal = inValFilter(num);
+      const now = new Date();
+      const seconds = now.getSeconds();
+      if (inVal % 2 == 0) {
+        return (
+          (seconds % 2 == 0
+            ? inVal * 10 + seconds + 1
+            : 0 - (inVal * 10 + seconds)) * 0.001
+        );
+      } else {
+        return (
+          (seconds % 2 == 0
+            ? inVal * 10 + seconds + 1
+            : 0 - (inVal * 10 + seconds)) * 0.001
+        );
+      }
+    }
 
     const alteredData = {
       ...latestData,
@@ -88,7 +101,7 @@ const MarketValueCardSet = ({ value }) => {
         parseFloat(latestData.open) + calculateParityValue(latestData.open)
       ),
       close: getValueOrDefault(
-        parseFloat(latestData.close) + calculateParityValue(latestData.close) 
+        parseFloat(latestData.close) + calculateParityValue(latestData.close)
       ),
     };
     setRandomizedData(alteredData);

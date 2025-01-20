@@ -33,6 +33,10 @@ function timeDiff(input) {
 }
 
 async function fetchMarketValueData(setIsLoading, setMarketValueData) {
+  // console.log(new Date().toLocaleString());
+
+  let index=0;
+  localStorage.setItem('index', index);
   setIsLoading(true); 
   try {
     const response = await fetch(

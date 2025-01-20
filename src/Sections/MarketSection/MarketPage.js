@@ -76,47 +76,64 @@ const NoDataMessage = styled.div`
 `;
  
 
-const setIntervalForFetch = (min, ind, setIsLoading,setMarketValueData) => {
+const setIntervalForFetch = ( ind, setIsLoading,setMarketValueData) => {
   localStorage.setItem('index', ind);
+  // console.log("interval setted for 15 mins ")
   setInterval(() => {
     fetchMarketValueData(setIsLoading, setMarketValueData);
-  }, min * 60 * 1000);
+  }, 15 * 60 * 1000);
 }; 
 const MarketPage = () => {
   const [marketValueData, setMarketValueData] = useState({});
-  const [isLoading, setIsLoading] = useState(true);
-
+  const [isLoading, setIsLoading] = useState(true); 
   useEffect(() => {
     fetchDataInit();
   }, []);
 
   async function fetchDataInit() {
     let index = await fetchMarketValueData(setIsLoading, setMarketValueData);
-    
+ 
 //if the request is made perfectly on 15min after the last updated time new request need to be made
 //and so on after 15min data updated perolery 
-    if (index >= 15) {
+    if (index >= 15) { 
+      // console.log(
+      //   'delay: ',
+      //   index,
+      //   'so fetch and setInterval after ',
+      //   0,
+      //   ' mins'
+      // );
       await fetchMarketValueData(setIsLoading, setMarketValueData);
       let ind = 0;
-      setIntervalForFetch(15, ind, setIsLoading, setMarketValueData);
+      
+      setIntervalForFetch( ind, setIsLoading, setMarketValueData);
     } 
     //in this case request to server made just after the server updated the data 
     //so intervaly we can request 
-    else if (index == 0) {  
-      setIntervalForFetch(15, index,setIsLoading, setMarketValueData);
+    else if (index == 0) {   
+      
+      // console.log(
+      //   'delay: ',
+      //   index,
+      //   'so  setInterval after ',
+      //   15 - index,
+      //   ' mins'
+      // );
+      setIntervalForFetch( index,setIsLoading, setMarketValueData);
     }
 //if the request is made inbetween then initialy we need to skip the index 
 //which is already time gone so we have >15 <0 elements to display initialy 
 //after that few we can continue with interval
      else if (index < 15 && index > 0) {
-      localStorage.setItem('index', index);
+      localStorage.setItem('index', index); 
+      // console.log("delay: ",index ,"so fetch and setInterval after ",15-index," mins")
       setTimeout(async() => {
        await fetchMarketValueData(setIsLoading, setMarketValueData);
-        setInterval(() => {
-          fetchMarketValueData(setIsLoading, setMarketValueData);
-        }, 15 * 60 * 1000);
+        
+      setIntervalForFetch(0, setIsLoading, setMarketValueData);
       }, (15 - index) * 60 * 1000);
     } else { 
+      // console.log('else', index);
        setIntervalForFetch(15,0); 
     }
   }
