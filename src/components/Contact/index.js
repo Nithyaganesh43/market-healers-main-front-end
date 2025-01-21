@@ -2,6 +2,8 @@
  
 import styled from 'styled-components';
 import './btn.css';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 const ContactSection = styled.section`
   
   overflow: hidden;
@@ -123,7 +125,34 @@ const Row = styled.div`
     }
   }
 `;
-const Contact = () => {  
+const Contact = () => {   
+  
+async function handleClick(e) {
+  e.preventDefault();
+  
+    const email = document.getElementById('email').value;
+    const name = document.getElementById('name').value;
+    const text = document.getElementById('text').value;
+
+    document.getElementById('email').value = '';
+    document.getElementById('name').value = '';
+    document.getElementById('text').value = '';
+
+     await fetch(
+      'https://server.markethealers.com/markethealers/contact',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, name, message: text }),
+      }
+    ).then((e)=>{
+      toast.success('Thanks for your interaction!');
+    }).catch((e)=>{ 
+      toast.error(e.message || 'Something went wrong. Please try again.');
+    })
+  }  
+
+
   return (
     <ContactSection id="contact">
       <Title>Get in touch</Title>
@@ -173,16 +202,11 @@ const Contact = () => {
           rows="2"
           placeholder="your message"></textarea>
         <div style={{ margin: '0 auto' }}>
-           
           <button
             type="button"
-            class="btn"
-            onClick={(e) => {
-              document.getElementById('email').value = '';
-              document.getElementById('name').value = '';
-              document.getElementById('text').value = '';
-
-              e.preventDefault();
+            className="btn"
+            onClick={async (e) => {
+              handleClick(e);
             }}>
             <strong>Submit</strong>
             <div id="container-stars">
@@ -196,6 +220,7 @@ const Contact = () => {
           </button>
         </div>
       </Form>
+<ToastContainer />
     </ContactSection>
   );
 };
