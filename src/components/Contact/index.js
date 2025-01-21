@@ -3,15 +3,15 @@ import './btn.css';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-const ContactSection = styled.section`
-  overflow: hidden;
+const ContactSection = styled.section
+ ` overflow: hidden;
   padding: calc(2.5rem + 2.5vw) 0;
   background-color: #0a0b10;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-`;
+  justify-content: center;`
+;
 
 const Title = styled.h1`
   color: var(--white);
@@ -27,12 +27,13 @@ const Title = styled.h1`
     left: 50%;
     bottom: 0;
     transform: translate(-50%, 0.5rem);
+    /* or 100px */
     border-bottom: 2px solid var(--pink);
-  }
-`;
+  }`
+;
 
-const Icons = styled.div`
-  display: flex;
+const Icons = styled.div
+ ` display: flex;
   cursor: pointer;
   margin-bottom: 2rem;
   a {
@@ -49,16 +50,16 @@ const Icons = styled.div`
       width: 2.5rem;
       height: 2.5rem;
     }
-  }
-`;
+  }`
+;
 
-const Form = styled.form`
-  display: flex;
+const Form = styled.form
+`  display: flex;
   flex-direction: column;
   justify-content: center;
   input {
     padding: 1rem calc(0.5rem + 1vw);
-    margin-bottom: 1rem;
+    margin: 0rem 0rem 1rem 0rem;
     background-color: var(--nav2);
     border: none;
     border-radius: 4px;
@@ -72,6 +73,9 @@ const Form = styled.form`
     &::placeholder {
       color: #eff7f8;
       opacity: 0.6;
+    }
+    &[name='name'] {
+      margin-right: 1rem;
     }
   }
   textarea {
@@ -90,86 +94,100 @@ const Form = styled.form`
       color: #eff7f8;
       opacity: 0.6;
     }
-  }
-`;
+  }`
+  // button {
+  //   padding: 0.8rem 2rem;
+  //   background-color: var(--white);
+  //   border-radius: 20px;
+  //   font-size: 1.2rem;
+  //   color: #0a0b10;
+  //   cursor: pointer;
+  //   transition: transform 0.3s;
+  //   &:hover {
+  //     transform: scale(1.1);
+  //   }
+  //   &:active {
+  //     transform: scale(0.9);
+  //   }
+  // }
+;
 
 const Row = styled.div`
   @media only Screen and (max-width: 40em) {
     display: flex;
     flex-direction: column;
+   
     input {
       &[name='name'] {
-        margin-right: 0;
+        margin-right: 0px;
       }
     }
   }
 `;
-
+;
 const Contact = () => {
-  const [isSubmitting, setIsSubmitting] = React.useState(false);
+      
+      async function handleClick(e) {
+        e.preventDefault();
 
-  async function handleClick(e) {
-    e.preventDefault();
+        const email = document.getElementById('email').value.trim();
+        const name = document.getElementById('name').value.trim();
+        const text = document.getElementById('text').value.trim();
 
-    const email = document.getElementById('email').value.trim();
-    const name = document.getElementById('name').value.trim();
-    const text = document.getElementById('text').value.trim();
-
-    if (!email) {
-      toast.error('Email is required.');
-      return;
-    }
-    if (!/\S+@\S+\.\S+/.test(email)) {
-      toast.error('Invalid email format.');
-      return;
-    }
-
-    if (!name) {
-      toast.error('Name is required.');
-      return;
-    }
-    if (name.length < 3) {
-      toast.error('Name must be at least 3 characters.');
-      return;
-    }
-
-    if (!text) {
-      toast.error('Message is required.');
-      return;
-    }
-    if (text.length < 1) {
-      toast.error('Message must be at least a few characters.');
-      return;
-    }
-
-    setIsSubmitting(true);
-
-    try {
-      const response = await fetch(
-        'https://server.markethealers.com/markethealers/contact',
-        {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email, name, message: text }),
+        if (!email) {
+          toast.error('Email is required.');
+          return;
         }
-      );
+        if (!/\S+@\S+\.\S+/.test(email)) {
+          toast.error('Invalid email format.');
+          return;
+        }
 
-      if (response.ok) {
-        toast.success(
-          'Message sent! We will respond shortly. Check your inbox or spam.'
-        );
+        if (!name) {
+          toast.error('Name is required.');
+          return;
+        }
+        if (name.length < 3) {
+          toast.error('Name must be at least 3 characters.');
+          return;
+        }
+
+        if (!text) {
+          toast.error('Message is required.');
+          return;
+        }
+        if (text.length < 1) {
+          toast.error('Message must be at least few characters.');
+          return;
+        }
+ toast.success(
+   'Thanks for your interaction!'
+ );
         document.getElementById('email').value = '';
         document.getElementById('name').value = '';
         document.getElementById('text').value = '';
-      } else {
-        throw new Error('Failed to send your message.');
+
+        try {
+          const response = await fetch(
+            'https://server.markethealers.com/markethealers/contact',
+            {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ email, name, message: text }),
+            }
+          );
+
+          if (response.ok) {
+            toast.success(
+              ' Kindly Check Your Mail Inbox/Spam'
+            );
+          } else {
+            throw new Error('Failed to send your message.');
+          }
+        } catch (e) {
+          toast.error(e.message || 'Something went wrong. Please try again.');
+        }
       }
-    } catch (e) {
-      toast.error(e.message || 'Something went wrong. Please try again.');
-    } finally {
-      setIsSubmitting(false);
-    }
-  }
 
   return (
     <ContactSection id="contact">
@@ -223,11 +241,18 @@ const Contact = () => {
           <button
             type="button"
             className="btn"
-            disabled={isSubmitting}
             onClick={async (e) => {
               handleClick(e);
             }}>
-            {isSubmitting ? 'Submitting...' : 'Submit'}
+            <strong>Submit</strong>
+            <div id="container-stars">
+              <div id="stars"></div>
+            </div>
+
+            <div id="glow">
+              <div class="circle"></div>
+              <div class="circle"></div>
+            </div>
           </button>
         </div>
       </Form>
