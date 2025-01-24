@@ -3,15 +3,36 @@ import Footer from './components/Footer';
 import { GlobalStyle } from './globalStyles';
 import Header from './components/Header/index';
 import Load from './Loader/Load';
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import { Outlet } from 'react-router-dom';
-import { LoadingContext } from './Context/LoadingContext';  
+import { LoadingContext } from './Context/LoadingContext';
 
 const App = () => {
+  const { loading, setloading } = useContext(LoadingContext);
+console.log("hi")
+ useEffect(() => {
+   const checkAuth = async () => {
+     setloading(true);
+     try {
 
-  
-  const { loading } = useContext(LoadingContext);  
-console.log(loading+"yes")
+       const response = await fetch(
+         'https://server.markethealers.com/markethealers/auth/authCheck',
+         {
+           method: 'GET',
+           credentials: 'include',  
+         }
+       );
+       if (response.ok) {
+           setloading(false);
+       } else {
+        window.location.href='https://markethealers.com/'
+       }
+     } catch (error) {
+        window.location.href = 'https://markethealers.com/';
+     } 
+   };
+   checkAuth();
+ },[]);
 
   return loading ? (
     <Load />

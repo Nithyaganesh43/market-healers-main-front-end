@@ -5,12 +5,15 @@ import ReactDOM from 'react-dom/client';
 import Main from './Pages/Main';
 import News from './Pages/News';
 import Market from './Pages/Market';
-import App from './App';
-const RootApp = () => (
+import App from './App'; 
+const RootApp = () =>{ 
+
+  
+  return  (
   <LoadingProvider> 
     <App/>
   </LoadingProvider>
-);
+) };
 
 const appRouter = createBrowserRouter([
   {
