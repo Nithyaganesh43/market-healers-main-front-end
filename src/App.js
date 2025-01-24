@@ -9,12 +9,11 @@ import { LoadingContext } from './Context/LoadingContext';
 
 const App = () => {
   const { loading, setloading } = useContext(LoadingContext);
-console.log("hi")
+ 
  useEffect(() => {
    const checkAuth = async () => {
      setloading(true);
      try {
-
        const response = await fetch(
          'https://server.markethealers.com/markethealers/auth/authCheck',
          {

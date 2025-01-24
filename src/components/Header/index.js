@@ -173,9 +173,50 @@ const MobileMenu = styled.nav`
   @media only Screen and (min-width: 76em) {
     display: none;
   }
+  `;
+  const Button = styled.button`
+  z-index:200;
+  background-color: var(--purple);
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  color: var(--white);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  &:hover {
+    transform: scale(1.1);
+  }
+  &:focus {
+    transform: scale(0.9);
+  }
+  @media only Screen and (max-width: 40em) {
+    font-size: 1rem;
+    &:hover {
+      transform: none;
+    }
+    &:focus {
+      transform: none;
+    }
+  }
 `;
-
 const Header = () => {
+  
+  const handleLogOut = async ()=>{
+   try{ const res = await fetch(
+      'https://server.markethealers.com/markethealers/auth/logout',
+      {
+        method: 'GET',
+        credentials: 'include',
+      });
+      if(res.ok){
+console.log("loged out")
+      }else{
+console.log('loged out');
+      } 
+    }catch(e){
+        console.log(e);
+      }
+  }
   const [click, setClick] = useState(false);
   const ref = useRef(null);
 
@@ -208,6 +249,12 @@ const Header = () => {
           <Link to="/">Home</Link>
           <Link to="/market">Market</Link>
           <Link to="/news">News</Link>
+          <Button
+            onClick={() => {
+              handleLogOut();
+            }}>
+            LogOut
+          </Button>
         </Nav>
         <HamburgerBtn
           clicked={click}
@@ -222,6 +269,12 @@ const Header = () => {
           <Link to="/">Home</Link>
           <Link to="/market">Market</Link>
           <Link to="/news">News</Link>
+          <Button
+            onClick={() => {
+              handleLogOut();
+            }}>
+            LogOut
+          </Button>
         </MobileMenu>
       </Headers>
     </div>
