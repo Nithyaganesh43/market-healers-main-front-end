@@ -24,11 +24,13 @@ const App = () => {
        if (response.ok) {
            setloading(false);
        } else {
-        window.location.href='https://markethealers.com/'
+        // window.location.href='https://markethealers.com/'
        }
      } catch (error) {
-        window.location.href = 'https://markethealers.com/';
-     } 
+        // window.location.href = 'https://markethealers.com/';
+     }finally{
+        setloading(false);
+     }
    };
    checkAuth();
  },[]);
