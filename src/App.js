@@ -10,30 +10,30 @@ import { LoadingContext } from './Context/LoadingContext';
 const App = () => {
   const { loading, setloading } = useContext(LoadingContext);
  
- useEffect(() => {
-   const checkAuth = async () => {
-     setloading(true);
-     try {
-       const response = await fetch(
-         'https://server.markethealers.com/markethealers/auth/authCheck',
-         {
-           method: 'GET',
-           credentials: 'include',  
-         }
-       );
-       if (response.ok) {
-           setloading(false);
-       } else {
-        // window.location.href='https://markethealers.com/'
-       }
-     } catch (error) {
-        // window.location.href = 'https://markethealers.com/';
-     }finally{
-        setloading(false);
-     }
-   };
-   checkAuth();
- },[]);
+//  useEffect(() => {
+//    setloading(true);
+//    const checkAuth = async () => {
+//      try {
+//        const response = await fetch(
+//          'https://server.markethealers.com/markethealers/auth/authCheck',
+//          {
+//            method: 'GET',
+//            credentials: 'include',  
+//          }
+//        );
+//        if (response.ok) {
+//            setloading(false);
+//        } else {
+//         // window.location.href='https://markethealers.com/'
+//        }
+//      } catch (error) {
+//         // window.location.href = 'https://markethealers.com/';
+//      }finally{
+//         setloading(false);
+//      }
+//    };
+//    checkAuth();
+//  },[setloading]);
 
   return loading ? (
     <Load />

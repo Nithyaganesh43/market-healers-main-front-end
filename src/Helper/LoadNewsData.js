@@ -3,13 +3,14 @@ function isThisToday(dateStr) {
   let date = new Date(dateStr.split('-').reverse().join('-'));
   return today.toDateString() === date.toDateString();
 }
-export async function getNewsData(setNewsData, setloading) {
+export async function getNewsData(setMainNewsData, setloading, setNewsData) {
   let news = localStorage.getItem('news');
   if (news) {
     try {
       news = JSON.parse(news);
       if (news && isThisToday(news.data.lastUpdated.date)) {
         setloading(false);
+        setMainNewsData(Object.values(news.data.data));
         setNewsData(Object.values(news.data.data));
         return;
       }
@@ -19,8 +20,7 @@ export async function getNewsData(setNewsData, setloading) {
   }
 
   try {
-    setloading(true)
-    await new Promise((r) => setTimeout(r, 5000));
+    setloading(true);
     let data = await fetch(
       'https://server.markethealers.com/MarketHealers/getNewsData'
     );
@@ -29,11 +29,12 @@ export async function getNewsData(setNewsData, setloading) {
     }
     data = await data.json();
     localStorage.setItem('news', JSON.stringify(data));
+    setMainNewsData(Object.values(data.data.data));
     setNewsData(Object.values(data.data.data));
-     setloading(false);
+    
+    setloading(false);
   } catch (error) {
     console.error('Error fetching news data:', error);
   }
 }
  
-    // localStorage.setItem('news', "");
