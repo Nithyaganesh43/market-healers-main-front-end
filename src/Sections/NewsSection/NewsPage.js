@@ -56,6 +56,7 @@ const Title = styled.h1`
     font-size: calc(1rem + 1vw);
   }
 `;
+
 const FilterContainer = styled.div`
   display: flex;
   gap: 10px;
@@ -105,32 +106,6 @@ const Input = styled.input`
   }
 `;
 
-const Button = styled.button`
-  padding: 10px 15px;
-  font-size: 1rem;
-  border: none;
-  border-radius: 5px;
-  background-color: #6a1b9a;
-  color: #fff;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  width: auto;
-  white-space: nowrap;
-
-  &:hover {
-    background-color: #8e24aa;
-  }
-
-  &:active {
-    background-color: #4a148c;
-  }
-
-  @media only screen and (max-width: 480px) {
-    flex: 1;
-    font-size:12px;
-  }
-`;
-
 const NewsPage = () => {
   const [MainNewsData, setMainNewsData] = useState([]);
   const [NewsData, setNewsData] = useState([]);
@@ -144,6 +119,18 @@ const NewsPage = () => {
     fetchData();
   }, []);
 
+  const latestSort = (newsData) => {
+    const allNews = newsData.flatMap((group) => group[0]);
+    allNews.sort((a, b) => new Date(b.publishedAt) - new Date(a.publishedAt));
+    const groupedByDay = {};
+    allNews.forEach((news) => {
+      const day = new Date(news.publishedAt).toISOString().split('T')[0];
+      if (!groupedByDay[day]) groupedByDay[day] = [];
+      groupedByDay[day].push(news);
+    });
+    return Object.values(groupedByDay).map((dayGroup) => [dayGroup]);
+  };
+
   useEffect(() => {
     if (search.length > 0) {
       const filteredData = MainNewsData.map((group) => [
@@ -153,26 +140,11 @@ const NewsPage = () => {
             v.description.toLowerCase().includes(search.toLowerCase())
         ),
       ]).filter((group) => group[0].length > 0);
-      setNewsData(filteredData);
+      setNewsData(latestSort(filteredData));
     } else {
-      setNewsData(MainNewsData);
+      setNewsData(latestSort(MainNewsData));
     }
   }, [search, MainNewsData]);
-
-  const latestSort = () => {
-    const allNews = NewsData.flatMap((group) => group[0]);
-    allNews.sort((a, b) => new Date(b.publishedAt) - new Date(a.publishedAt));
-    const groupedByDay = {};
-    allNews.forEach((news) => {
-      const day = new Date(news.publishedAt).toISOString().split('T')[0];
-      if (!groupedByDay[day]) groupedByDay[day] = [];
-      groupedByDay[day].push(news);
-    });
-    const sortedData = Object.values(groupedByDay).map((dayGroup) => [
-      dayGroup,
-    ]);
-    setNewsData(sortedData);
-  };
 
   return (
     <HomeSection>
@@ -183,24 +155,24 @@ const NewsPage = () => {
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search news"
           />
-          <Button onClick={latestSort}>Latest First</Button>
         </FilterContainer>
         <NewsGrid>
           {NewsData.map((group, index) =>
-            group[0].map((item, key) => (
-              <NewsCard
-                key={`${index}-${key}`}
-                data={{
-                  content: item.content,
-                  description: item.description,
-                  image: item.image,
-                  publishedAt: item.publishedAt,
-                  source: item.source,
-                  title: item.title,
-                  url: item.url,
-                }}
-              />
-            ))
+            group[0].map((item, key) => { 
+              return (
+                <NewsCard
+                  key={`${index}-${key}`}
+                  data={{
+                    content: item.content,
+                    description: item.description,
+                    image: item.image,
+                    publishedAt: item.publishedAt,
+                    source: item.source,
+                    title: item.title,
+                    url: item.url,
+                  }}
+                />
+              );})
           )}
         </NewsGrid>
       </MainContent>

@@ -136,20 +136,18 @@ const HeroSection = () => {
         <Lb>
           <Title>Welcome</Title>
           <SubText>We're Here to Guide You</SubText>{' '}
-        
-            <div class="card123">
-              <div class="loader123">
-                <p>Explore Our Services</p>
-                <div class="words">
-                  <span class="word">Market Data</span>
-                  <span class="word">Market Data</span>
-                  <span class="word">News</span>
-                  <span class="word">Calculator</span>
-                  <span class="word">Cources</span>
-                </div>
+          <div class="card123">
+            <div class="loader123">
+              <p>Explore Our Services</p>
+              <div class="words">
+                <span class="word">Market Data</span>
+                <span class="word">Market Data</span>
+                <span class="word">News</span>
+                <span class="word">Calculator</span>
+                <span class="word">Cources</span>
               </div>
             </div>
-         
+          </div>
         </Lb>
         <Card>
           <CardContainer>
