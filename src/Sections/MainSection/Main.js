@@ -1,7 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
 import ServiceCard from '../../components/ServiceCard/index';
+import { useNavigate } from 'react-router-dom';
 import './Main.css';
+
 const HomeSection = styled.section`
   width: 100vw;
   padding-right: 10%;
@@ -13,7 +15,6 @@ const HomeSection = styled.section`
   position: relative;
 
   @media only screen and (max-width: 480px) {
-     
     padding-right: 0%;
     padding-left: 4%;
     height: 100vh;
@@ -34,7 +35,7 @@ const MainContent = styled.div`
     align-items: center;
     width: 100%;
     margin: 0 0 10rem 0;
-    gap : 0rem;
+    gap: 0rem;
   }
 `;
 
@@ -115,7 +116,7 @@ const CardContainer = styled.div`
 
     @media only screen and (max-width: 42em) {
       width: 35vw;
-      height: 180px; 
+      height: 180px;
     }
 
     @media only screen and (max-width: 30em) {
@@ -130,21 +131,23 @@ const CardContainer = styled.div`
 `;
 
 const HeroSection = () => {
+  const navigate = useNavigate();
+
   return (
     <HomeSection>
       <MainContent>
         <Lb>
           <Title>Welcome</Title>
-          <SubText>We're Here to Guide You</SubText>{' '}
-          <div class="card123">
-            <div class="loader123">
+          <SubText>We're Here to Guide You</SubText>
+          <div className="card123">
+            <div className="loader123">
               <p>Explore Our Services</p>
-              <div class="words">
-                <span class="word">Market Data</span>
-                <span class="word">Market Data</span>
-                <span class="word">News</span>
-                <span class="word">Calculator</span>
-                <span class="word">Cources</span>
+              <div className="words">
+                <span className="word">Market Data</span>
+                <span className="word">Market Data</span>
+                <span className="word">News</span>
+                <span className="word">Calculator</span>
+                <span className="word">Courses</span>
               </div>
             </div>
           </div>
@@ -152,17 +155,13 @@ const HeroSection = () => {
         <Card>
           <CardContainer>
             <ServiceCard
-              onClick={() => {
-                window.location.href = '/news';
-              }}
+              onClick={() => navigate('/news')}
               data={{ prompt: 'Today News', text: 'Click To Read' }}
             />
           </CardContainer>
           <CardContainer>
             <ServiceCard
-              onClick={() => {
-                window.location.href = '/market';
-              }}
+              onClick={() => navigate('/market')}
               data={{ prompt: 'Live Market Values', text: 'Click To Read' }}
             />
           </CardContainer>

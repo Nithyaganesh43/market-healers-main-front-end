@@ -5,7 +5,10 @@ import {
   getLastMarketClosedDateAndTime,
   fetchMarketValueData,
 } from '../../Helper/MarketPageHelper';
+import openImg from '../../assets/open.png';
+import closeImg from '../../assets/close.png';
 import Load from '../../Loader/Load';
+
 const HomeSection = styled.section`
   width: 100%;
   min-height: 100vh;
@@ -61,8 +64,8 @@ const Title = styled.h1`
 const SubText = styled.h5`
   color: rgb(207, 207, 207);
   font-size: calc(1.2rem + 0.5vw);
-  margin-top: 20px;
-  margin-bottom: 20px;
+  margin: 20px 0;
+
   @media only screen and (max-width: 48em) {
     font-size: calc(1rem + 0.5vw);
   }
@@ -74,67 +77,43 @@ const NoDataMessage = styled.div`
   color: rgb(200, 50, 50);
   margin-top: 2rem;
 `;
- 
 
-const setIntervalForFetch = ( ind, setIsLoading,setMarketValueData) => {
+const MarketImage = styled.img`
+  width: 100px;
+  height: auto;
+  margin-top: 5px;
+`;
+
+const setIntervalForFetch = (ind, setIsLoading, setMarketValueData) => {
   localStorage.setItem('index', ind);
-  // console.log("interval setted for 15 mins ")
   setInterval(() => {
     fetchMarketValueData(setIsLoading, setMarketValueData);
   }, 15 * 60 * 1000);
-}; 
+};
+
 const MarketPage = () => {
   const [marketValueData, setMarketValueData] = useState({});
-  const [isLoading, setIsLoading] = useState(true); 
+  const [isLoading, setIsLoading] = useState(true);
+
   useEffect(() => {
     fetchDataInit();
   }, []);
 
   async function fetchDataInit() {
     let index = await fetchMarketValueData(setIsLoading, setMarketValueData);
- 
-//if the request is made perfectly on 15min after the last updated time new request need to be made
-//and so on after 15min data updated perolery 
-    if (index >= 15) { 
-      // console.log(
-      //   'delay: ',
-      //   index,
-      //   'so fetch and setInterval after ',
-      //   0,
-      //   ' mins'
-      // );
+    if (index >= 15) {
       await fetchMarketValueData(setIsLoading, setMarketValueData);
-      let ind = 0;
-      
-      setIntervalForFetch( ind, setIsLoading, setMarketValueData);
-    } 
-    //in this case request to server made just after the server updated the data 
-    //so intervaly we can request 
-    else if (index == 0) {   
-      
-      // console.log(
-      //   'delay: ',
-      //   index,
-      //   'so  setInterval after ',
-      //   15 - index,
-      //   ' mins'
-      // );
-      setIntervalForFetch( index,setIsLoading, setMarketValueData);
-    }
-//if the request is made inbetween then initialy we need to skip the index 
-//which is already time gone so we have >15 <0 elements to display initialy 
-//after that few we can continue with interval
-     else if (index < 15 && index > 0) {
-      localStorage.setItem('index', index); 
-      // console.log("delay: ",index ,"so fetch and setInterval after ",15-index," mins")
-      setTimeout(async() => {
-       await fetchMarketValueData(setIsLoading, setMarketValueData);
-        
       setIntervalForFetch(0, setIsLoading, setMarketValueData);
+    } else if (index == 0) {
+      setIntervalForFetch(index, setIsLoading, setMarketValueData);
+    } else if (index < 15 && index > 0) {
+      localStorage.setItem('index', index);
+      setTimeout(async () => {
+        await fetchMarketValueData(setIsLoading, setMarketValueData);
+        setIntervalForFetch(0, setIsLoading, setMarketValueData);
       }, (15 - index) * 60 * 1000);
-    } else { 
-      // console.log('else', index);
-       setIntervalForFetch(15,0); 
+    } else {
+      setIntervalForFetch(15, setIsLoading, setMarketValueData);
     }
   }
 
@@ -148,13 +127,21 @@ const MarketPage = () => {
             ? ''
             : marketValueData?.isMarketOpen
             ? 'Market is open. Check current values here.'
-            : `The market is currently closed. Please visit us again when it reopens. Last closed on ${
+            : `The market is currently closed. Last closed on ${
                 getLastMarketClosedDateAndTime(marketValueData) || '--'
               }`}
         </SubText>
 
         {isLoading ? (
           <Load />
+        ) : (
+          <MarketImage
+            src={marketValueData?.isMarketOpen ? openImg : closeImg}
+          />
+        )}
+
+        {isLoading ? (
+          ''
         ) : marketValueData?.data &&
           Object.keys(marketValueData.data).length > 0 ? (
           <MarketValueGrid>

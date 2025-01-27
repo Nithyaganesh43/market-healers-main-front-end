@@ -19,6 +19,7 @@ const MainContent = styled.div`
   width: 100%;
   max-width: 1000px;
   margin: 50px auto;
+  margin-left:12vw;
   display: flex;
   flex-direction: column;
   @media only screen and (max-width: 48em) {

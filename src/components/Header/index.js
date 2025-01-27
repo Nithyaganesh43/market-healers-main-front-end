@@ -182,6 +182,7 @@ const MobileMenu = styled.nav`
   color: var(--white);
   font-weight: 600;
   cursor: pointer;
+  margin:10px;
   transition: all 0.2s;
   &:hover {
     transform: scale(1.1);
