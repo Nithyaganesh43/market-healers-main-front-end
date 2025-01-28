@@ -41,7 +41,7 @@ const App = () => {
       <Header />
       <Outlet />
       <Contact />
-      <Footer />
+      {/* <Footer /> */}
     </>
   );
 };
