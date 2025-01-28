@@ -63,7 +63,7 @@ const Title = styled.h1`
 
 const SubText = styled.h5`
   color: rgb(207, 207, 207);
-  font-size: calc(1.2rem + 0.5vw);
+  font-size: calc(1.2rem);
   margin: 20px 0;
 
   @media only screen and (max-width: 48em) {
