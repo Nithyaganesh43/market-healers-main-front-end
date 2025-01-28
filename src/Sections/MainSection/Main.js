@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import ServiceCard from '../../components/ServiceCard/index';
 import { useNavigate } from 'react-router-dom';
 import './Main.css';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const HomeSection = styled.section`
   width: 100vw;
@@ -133,6 +135,22 @@ const CardContainer = styled.div`
 const HeroSection = () => {
   const navigate = useNavigate();
 
+  useEffect(() => { 
+    const isToastShown = localStorage.getItem('isToastShown');
+
+    if (!isToastShown) {
+      toast.success(
+        'Click our service card to explore wonderful things and grow yourself!',
+        {
+          position: 'top-right',
+          autoClose: 6000,
+        }
+      );
+ 
+      localStorage.setItem('isToastShown', 'true');
+    }
+  }, []);
+
   return (
     <HomeSection>
       <MainContent>
@@ -177,6 +195,7 @@ const HeroSection = () => {
           </CardContainer>
         </Card>
       </MainContent>
+      <ToastContainer />
     </HomeSection>
   );
 };

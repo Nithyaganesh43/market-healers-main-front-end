@@ -120,32 +120,46 @@ const NewsPage = () => {
     fetchData();
   }, []);
 
-  const latestSort = (newsData) => {
-    const allNews = newsData.flatMap((group) => group[0]);
-    allNews.sort((a, b) => new Date(b.publishedAt) - new Date(a.publishedAt));
-    const groupedByDay = {};
-    allNews.forEach((news) => {
+const latestSort = (newsData) => {
+  const allNews = newsData.flatMap((group) => group[0] || []);
+  allNews
+    .filter((news) => news && news.publishedAt)
+    .sort((a, b) => new Date(b.publishedAt) - new Date(a.publishedAt));
+
+  const groupedByDay = {};
+  allNews.forEach((news) => {
+    if (news && news.publishedAt) {
       const day = new Date(news.publishedAt).toISOString().split('T')[0];
       if (!groupedByDay[day]) groupedByDay[day] = [];
       groupedByDay[day].push(news);
-    });
-    return Object.values(groupedByDay).map((dayGroup) => [dayGroup]);
-  };
-
-  useEffect(() => {
-    if (search.length > 0) {
-      const filteredData = MainNewsData.map((group) => [
-        group[0].filter(
-          (v) =>
-            v.title.toLowerCase().includes(search.toLowerCase()) ||
-            v.description.toLowerCase().includes(search.toLowerCase())
-        ),
-      ]).filter((group) => group[0].length > 0);
-      setNewsData(latestSort(filteredData));
-    } else {
-      setNewsData(latestSort(MainNewsData));
     }
-  }, [search, MainNewsData]);
+  });
+
+  return Object.values(groupedByDay).map((dayGroup) => [dayGroup]);
+};
+
+
+useEffect(() => {
+  if (search.length > 0) {
+    const filteredData = MainNewsData.map((group) => {
+      if (group && group[0]) {
+        return [
+          group[0].filter(
+            (v) =>
+              v &&
+              (v.title?.toLowerCase().includes(search.toLowerCase()) ||
+                v.description?.toLowerCase().includes(search.toLowerCase()))
+          ),
+        ];
+      }
+      return null;
+    }).filter((group) => group && group[0]?.length > 0);
+
+    setNewsData(latestSort(filteredData));
+  } else {
+    setNewsData(latestSort(MainNewsData));
+  }
+}, [search, MainNewsData]);
 
   return (
     <HomeSection>

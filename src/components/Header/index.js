@@ -209,10 +209,10 @@ const Header = () => {
         method: 'GET',
         credentials: 'include',
       });
-      if(res.ok){
-console.log("loged out")
+      if(res.ok){ 
+        window.location.href = 'https://markethealers.com';
       }else{
-console.log('loged out');
+        window.location.href = 'https://markethealers.com';
       } 
     }catch(e){
         console.log(e);
