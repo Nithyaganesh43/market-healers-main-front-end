@@ -1,5 +1,5 @@
 import Contact from './components/Contact/index';
-import Footer from './components/Footer';
+// import Footer from './components/Footer';
 import { GlobalStyle } from './globalStyles';
 import Header from './components/Header/index';
 import Load from './Loader/Load';

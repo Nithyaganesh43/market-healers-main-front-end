@@ -91,9 +91,8 @@ const Input = styled.input`
   color: #000;
   background-color: #fff;
   flex: 1;
-  width: 100%;
-  box-sizing: border-box;
-
+  width: 95%;
+  box-sizing: border-box; 
   &::placeholder {
     color: #999;
   }
@@ -104,6 +103,7 @@ const Input = styled.input`
 
   @media only screen and (max-width: 480px) {
     flex: 2;
+    position: fixed;
   }
 `;
 
