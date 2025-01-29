@@ -1,11 +1,11 @@
- 
 import MainSection from '../Sections/MainSection/Main';
-import About from '../Sections/MainSection/About'; 
- 
-import styled from "styled-components"; 
+import Service from '../Sections/MainSection/Service'; 
+import About from '../Sections/MainSection/About';
+
+import styled from 'styled-components';
 
 const Container = styled.div`
-  background-color:rgb(255, 255, 255);
+  background-color: rgb(255, 255, 255);
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -17,7 +17,9 @@ const Home = () => {
   return (
     <Container>
       <MainSection />
-      <About /> 
+      <Service />
+      
+      <About />
     </Container>
   );
 };
