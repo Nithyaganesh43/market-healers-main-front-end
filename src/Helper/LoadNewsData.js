@@ -1,15 +1,29 @@
-function isOneDayOlder(lastUpdatedStr) {
-  const lastUpdated = new Date(lastUpdatedStr);
-  const now = new Date();  
-  return now.toLocaleDateString()!=lastUpdated.toLocaleDateString();
-}
+ 
+const getCurrentDateObj = (simulatedDate = null) => {
+  const date = simulatedDate
+    ? simulatedDate
+    : new Date().toLocaleString('en-US', {
+        timeZone: 'America/New_York',
+        hour12: false,
+      });
+  const [datePart, timePart] = date.split(', ');
+  return { date: datePart.replace(/\//g, '-'), time: timePart };
+};
 
+function isFourHoursApart(dt1, dt2) {
+  let t1 = new Date(`${dt1.date} ${dt1.time}`);
+  let t2 = new Date(`${dt2.date} ${dt2.time}`);
+  return Math.abs(t2 - t1) >= 4 * 60 * 60 * 1000;
+}
 export async function getNewsData(setMainNewsData, setloading, setNewsData) {
   let news = localStorage.getItem('news');
   if (news) {
     try {
       news = JSON.parse(news);
-      if (news && !isOneDayOlder(news.data.lastUpdated.date)) {
+      if (
+        news &&
+        !isFourHoursApart(news.data.lastUpdated, getCurrentDateObj())
+      ) {
         setloading(false);
         setMainNewsData(Object.values(news.data.data));
         setNewsData(Object.values(news.data.data));
