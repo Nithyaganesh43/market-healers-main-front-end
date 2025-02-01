@@ -1,5 +1,5 @@
 import Contact from './components/Contact/index';
-// import Footer from './components/Footer';
+import Footer from './components/Footer';
 import { GlobalStyle } from './globalStyles';
 import Header from './components/Header/index';
 import Load from './Loader/Load';
@@ -10,28 +10,28 @@ import { LoadingContext } from './Context/LoadingContext';
 const App = () => {
   const { loading, setloading } = useContext(LoadingContext);
  
-//  useEffect(() => {
-//    setloading(true);
-//    const checkAuth = async () => {
-//      try {
-//        const response = await fetch(
-//          'https://server.markethealers.com/markethealers/auth/authCheck',
-//          {
-//            method: 'GET',
-//            credentials: 'include',  
-//          }
-//        );
-//        if (response.ok) {
-//            setloading(false);
-//        } else {
-//         window.location.href='https://markethealers.com/'
-//        }
-//      } catch (error) {
-//         window.location.href = 'https://markethealers.com/';
-//      } 
-//    };
-//    checkAuth();
-//  },[setloading]);
+ useEffect(() => {
+   setloading(true);
+   const checkAuth = async () => {
+     try {
+       const response = await fetch(
+         'https://server.markethealers.com/markethealers/auth/authCheck',
+         {
+           method: 'GET',
+           credentials: 'include',  
+         }
+       );
+       if (response.ok) {
+           setloading(false);
+       } else {
+        window.location.href='https://markethealers.com/'
+       }
+     } catch (error) {
+        window.location.href = 'https://markethealers.com/';
+     } 
+   };
+   checkAuth();
+ },[setloading]);
 
   return loading ? (
     <Load />
@@ -41,7 +41,7 @@ const App = () => {
       <Header />
       <Outlet />
       <Contact />
-      {/* <Footer /> */}
+      <Footer />
     </>
   );
 };

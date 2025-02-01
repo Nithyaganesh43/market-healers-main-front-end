@@ -6,7 +6,7 @@ const Footer = () => {
   return (
     <footer className="footer">
       <a
-        href="https://www.linkedin.com/in/nithyaganesh"
+        href="https://www.linkedin.com/in/nithyaganesh43"
         target="_blank"
         rel="noopener noreferrer"
         className="linkedin-link">
