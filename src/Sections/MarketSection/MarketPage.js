@@ -120,14 +120,14 @@ const MarketPage = () => {
   return (
     <HomeSection>
       <MainContent>
-        {isLoading ? '' : <Title>Market Healers Market Value</Title>}
+        {isLoading ? '' : <Title>Market Now</Title>}
 
         <SubText>
           {isLoading
             ? ''
             : marketValueData?.isMarketOpen
             ? 'Market is open. Check current values here.'
-            : `US market is currently closed. Last closed on ${
+            : `Market is currently closed. Last closed on ${
                 getLastMarketClosedDateAndTime(marketValueData) || '--'
               }`}
         </SubText>
