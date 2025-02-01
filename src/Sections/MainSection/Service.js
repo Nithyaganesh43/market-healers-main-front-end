@@ -11,7 +11,7 @@ const rotating = keyframes`
 
 const Wrapper = styled.div`
   width: 100vw;
-  height: 100vh;
+  height: 110vh;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -22,7 +22,7 @@ const Wrapper = styled.div`
   background-size: cover;
   background-position: center;
   background-attachment: fixed;
-
+   
   &::before {
     content: '';
     position: absolute;
@@ -48,7 +48,7 @@ const Inner = styled.div`
   width: 150px;
   height: 80vh;
   transform-style: preserve-3d;
-  animation: ${rotating} 100s linear infinite;
+  animation: ${rotating} 200s linear infinite;
 
   &:hover {
     animation-play-state: paused;
@@ -63,8 +63,8 @@ const Inner = styled.div`
 
 const Card = styled.div`
   position: absolute;
-  width: 180px;
-  height: 300px;
+  width: 190px;
+  height: 250px;
   border: 2px solid rgba(${({ color }) => color});
   border-radius: 12px;
   transform: rotateY(calc((360deg / 10) * ${({ index }) => index}))
@@ -72,18 +72,18 @@ const Card = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
   text-align: center;
   background: radial-gradient(circle, rgba(${({ color }) => color}, 0.9) 100%);
-  padding: 10px;
+  padding: 5px;
   font-family: Arial, sans-serif;
   color: white;
   backdrop-filter: blur(5px);
   backface-visibility: hidden;
 
   @media (max-width: 768px) {
-    width: 95px;
-    height: 250px;
+    width: 100px;
+    height: 300px;
+    padding: 2px;
     transform: rotateY(calc((360deg / 10) * ${({ index }) => index}))
       translateZ(150px);
   }
@@ -93,6 +93,11 @@ const Title = styled.h3`
   font-size: 18px;
   font-weight: bold;
   margin-bottom: 5px;
+
+  padding-top: 10px;
+  @media (max-width: 768px) {
+    font-size: 12px;
+  }
 `;
 
 const Title1 = styled.h3`
@@ -111,6 +116,9 @@ const Title1 = styled.h3`
 const Description = styled.p`
   font-size: 12px;
   line-height: 1.4;
+  @media (max-width: 768px) {
+    font-size: 10px;
+  }
 `;
 
 const cardContents = [
@@ -160,7 +168,7 @@ const cardContents = [
       'Step into the future of trading with algorithmic trading and automation. Learn how to develop and deploy automated strategies, utilize AI-driven insights, and enhance efficiency.',
   },
   {
-    title: 'Cryptocurrency and Blockchain Investments',
+    title: 'Crypto currency and Blockchain Investments',
     description:
       'Explore the dynamic world of cryptocurrencies and blockchain technology. Gain insights into Bitcoin, Ethereum, and altcoins, understand market trends, and learn secure investment strategies.',
   },
