@@ -136,8 +136,8 @@ const Contact = () => {
         if (response.ok) {
           const data = await response.json();
 
-          document.getElementById('email').value = data.fullName;
-          document.getElementById('name').value = data.email;
+          document.getElementById('email').value = data.email;
+          document.getElementById('name').value = data.fullName;
         }
       } catch (error) {}
     };
