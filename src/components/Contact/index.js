@@ -2,41 +2,17 @@ import styled from 'styled-components';
 import './btn.css';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useEffect, useState } from 'react';
 
 const ContactSection = styled.section`
   overflow: hidden;
   padding: calc(2.5rem + 2.5vw) 0;
+  background-color: #0a0b10;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  position: relative;
-  z-index: 1;
-
-  background-image: url('https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
-  background-size: cover;
-  background-position: center;
-  background-attachment: fixed;
-
-  &::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(
-      0,
-      0,
-      0,
-      0.8
-    );  
-    filter: blur(0px);  
-    z-index: -1; 
-  }
 `;
-
-
 const Title = styled.h1`
   color: var(--white);
   display: inline-block;
@@ -53,11 +29,10 @@ const Title = styled.h1`
     transform: translate(-50%, 0.5rem);
     /* or 100px */
     border-bottom: 2px solid var(--pink);
-  }`
-;
-
-const Icons = styled.div
- ` display: flex;
+  }
+`;
+const Icons = styled.div`
+  display: flex;
   cursor: pointer;
   margin-bottom: 2rem;
   a {
@@ -74,11 +49,10 @@ const Icons = styled.div
       width: 2.5rem;
       height: 2.5rem;
     }
-  }`
-;
-
-const Form = styled.form
-`  display: flex;
+  }
+`;
+const Form = styled.form`
+  display: flex;
   flex-direction: column;
   justify-content: center;
   input {
@@ -118,29 +92,28 @@ const Form = styled.form
       color: #eff7f8;
       opacity: 0.6;
     }
-  }`
-  // button {
-  //   padding: 0.8rem 2rem;
-  //   background-color: var(--white);
-  //   border-radius: 20px;
-  //   font-size: 1.2rem;
-  //   color: #0a0b10;
-  //   cursor: pointer;
-  //   transition: transform 0.3s;
-  //   &:hover {
-  //     transform: scale(1.1);
-  //   }
-  //   &:active {
-  //     transform: scale(0.9);
-  //   }
-  // }
-;
-
+  }
+`;
+// button {
+//   padding: 0.8rem 2rem;
+//   background-color: var(--white);
+//   border-radius: 20px;
+//   font-size: 1.2rem;
+//   color: #0a0b10;
+//   cursor: pointer;
+//   transition: transform 0.3s;
+//   &:hover {
+//     transform: scale(1.1);
+//   }
+//   &:active {
+//     transform: scale(0.9);
+//   }
+// }
 const Row = styled.div`
   @media only Screen and (max-width: 40em) {
     display: flex;
     flex-direction: column;
-   
+
     input {
       &[name='name'] {
         margin-right: 0px;
@@ -148,70 +121,85 @@ const Row = styled.div`
     }
   }
 `;
-;
 const Contact = () => {
-      
-      async function handleClick(e) {
-        e.preventDefault();
-
-        const email = document.getElementById('email').value.trim();
-        const name = document.getElementById('name').value.trim();
-        const text = document.getElementById('text').value.trim();
-
-        if (!email) {
-          toast.error('Email is required.');
-          return;
-        }
-        if (!/\S+@\S+\.\S+/.test(email)) {
-          toast.error('Invalid email format.');
-          return;
-        }
-
-        if (!name) {
-          toast.error('Name is required.');
-          return;
-        }
-        if (name.length < 3) {
-          toast.error('Name must be at least 3 characters.');
-          return;
-        }
-
-        if (!text) {
-          toast.error('Message is required.');
-          return;
-        }
-        if (text.length < 1) {
-          toast.error('Message must be at least few characters.');
-          return;
-        }
- toast.success(
-   'Thanks for your interaction!'
- );
-        document.getElementById('email').value = '';
-        document.getElementById('name').value = '';
-        document.getElementById('text').value = '';
-
-        try {
-          const response = await fetch(
-            'https://server.markethealers.com/markethealers/contact',
-            {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ email, name, message: text }),
-            }
-          );
-
-          if (response.ok) {
-            toast.success(
-              ' Kindly Check Your Mail Inbox/Spam'
-            );
-          } else {
-            throw new Error('Failed to send your message.');
+  useEffect(() => {
+    const checkAuth = async () => {
+      try {
+        const response = await fetch(
+          'https://server.markethealers.com/markethealers/getUserInfo',
+          {
+            method: 'GET',
+            credentials: 'include',
           }
-        } catch (e) {
-          toast.error(e.message || 'Something went wrong. Please try again.');
+        );
+
+        if (response.ok) {
+          const data = await response.json();
+
+          document.getElementById('email').value = data.fullName;
+          document.getElementById('name').value = data.email;
         }
+      } catch (error) {}
+    };
+    checkAuth();
+  }, []);
+  async function handleClick(e) {
+    e.preventDefault();
+
+    const email = document.getElementById('email').value.trim();
+    const name = document.getElementById('name').value.trim();
+    const text = document.getElementById('text').value.trim();
+
+    if (!email) {
+      toast.error('Email is required.');
+      return;
+    }
+    if (!/\S+@\S+\.\S+/.test(email)) {
+      toast.error('Invalid email format.');
+      return;
+    }
+
+    if (!name) {
+      toast.error('Name is required.');
+      return;
+    }
+    if (name.length < 3) {
+      toast.error('Name must be at least 3 characters.');
+      return;
+    }
+
+    if (!text) {
+      toast.error('Message is required.');
+      return;
+    }
+    if (text.length < 1) {
+      toast.error('Message must be at least few characters.');
+      return;
+    }
+    toast.success('Thanks for your interaction!');
+    document.getElementById('email').value = '';
+    document.getElementById('name').value = '';
+    document.getElementById('text').value = '';
+
+    try {
+      const response = await fetch(
+        'https://server.markethealers.com/markethealers/contact',
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, name, message: text }),
+        }
+      );
+
+      if (response.ok) {
+        toast.success(' Kindly Check Your Mail Inbox/Spam');
+      } else {
+        throw new Error('Failed to send your message.');
       }
+    } catch (e) {
+      toast.error('Something went wrong. Please try again.');
+    }
+  }
 
   return (
     <ContactSection id="contact">
@@ -274,8 +262,8 @@ const Contact = () => {
             </div>
 
             <div id="glow">
-              <div class="circle"></div>
-              <div class="circle"></div>
+              <div className="circle"></div>
+              <div className="circle"></div>
             </div>
           </button>
         </div>
