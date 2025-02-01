@@ -7,9 +7,8 @@ import {
   convertToUSMarketTime,
 } from '../../Helper/MarketValueCardSetHelper';
 
-
 const MarketValueCardSet = ({ value }) => {
-  const { meta, values } = value.value; 
+  const { meta, values } = value.value;
   const [currentIndex, setCurrentIndex] = useState(
     Number(localStorage.getItem('index'))
   );
@@ -17,11 +16,17 @@ const MarketValueCardSet = ({ value }) => {
   const [randomizedData, setRandomizedData] = useState({});
   const [prevCloseValue, setPrevCloseValue] = useState(0);
   const [closeColor, setCloseColor] = useState('neutral');
-  
 
   useEffect(() => {
     if (value.Market) {
-      updateRealData(values,currentIndex,setLatestData,setRandomizedData,setPrevCloseValue,setCurrentIndex);
+      updateRealData(
+        values,
+        currentIndex,
+        setLatestData,
+        setRandomizedData,
+        setPrevCloseValue,
+        setCurrentIndex
+      );
     } else {
       updateLastData(values, setRandomizedData, currentIndex);
     }
@@ -29,15 +34,15 @@ const MarketValueCardSet = ({ value }) => {
 
   useEffect(() => {
     if (value.Market) {
-      const minuteInterval = setInterval(()=>{
-         updateRealData(
-           values,
-           currentIndex,
-           setLatestData,
-           setRandomizedData,
-           setPrevCloseValue,
-           setCurrentIndex
-         );
+      const minuteInterval = setInterval(() => {
+        updateRealData(
+          values,
+          currentIndex,
+          setLatestData,
+          setRandomizedData,
+          setPrevCloseValue,
+          setCurrentIndex
+        );
       }, 60000);
       return () => clearInterval(minuteInterval);
     }
@@ -45,7 +50,7 @@ const MarketValueCardSet = ({ value }) => {
 
   useEffect(() => {
     if (value.Market) {
-      const secondInterval = setInterval(()=>{
+      const secondInterval = setInterval(() => {
         applyRandomChanges(
           setCloseColor,
           latestData,
@@ -65,7 +70,13 @@ const MarketValueCardSet = ({ value }) => {
         {randomizedData.close}
       </span>
       <span className="time">
-        {convertToUSMarketTime(values.timestamp[currentIndex])}
+        {values.timestamp
+          ? value.Market
+            ? convertToUSMarketTime(values.timestamp[currentIndex])
+            : convertToUSMarketTime(
+                values.timestamp[values?.timestamp.length - 1]
+              )
+          : ''}
       </span>
       <div className="dynamic-data">
         <div className="data-item">
