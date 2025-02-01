@@ -104,7 +104,7 @@ const MarketPage = () => {
     if (index >= 15) {
       await fetchMarketValueData(setIsLoading, setMarketValueData);
       setIntervalForFetch(0, setIsLoading, setMarketValueData);
-    } else if (index == 0) {
+    } else if (index === 0) {
       setIntervalForFetch(index, setIsLoading, setMarketValueData);
     } else if (index < 15 && index > 0) {
       localStorage.setItem('index', index);
@@ -127,7 +127,7 @@ const MarketPage = () => {
             ? ''
             : marketValueData?.isMarketOpen
             ? 'Market is open. Check current values here.'
-            : `The market is currently closed. Last closed on ${
+            : `US market is currently closed. Last closed on ${
                 getLastMarketClosedDateAndTime(marketValueData) || '--'
               }`}
         </SubText>
@@ -143,7 +143,7 @@ const MarketPage = () => {
         {isLoading ? (
           ''
         ) : marketValueData?.data &&
-          Object.keys(marketValueData.data).length > 0 ? (
+          Object.keys(marketValueData.data)?.length > 0 ? (
           <MarketValueGrid>
             {Object.entries(marketValueData.data).map(([key, value]) => (
               <MarketValueCardSet

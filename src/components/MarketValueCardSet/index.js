@@ -1,11 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import './styles.css';
-import {updateRealData,updateLastData,applyRandomChanges} from '../../Helper/MarketValueCardSetHelper'
+import {
+  updateRealData,
+  updateLastData,
+  applyRandomChanges,
+  convertToUSMarketTime,
+} from '../../Helper/MarketValueCardSetHelper';
 
 
 const MarketValueCardSet = ({ value }) => {
-  const { meta, values } = value.value;
-  
+  const { meta, values } = value.value; 
   const [currentIndex, setCurrentIndex] = useState(
     Number(localStorage.getItem('index'))
   );
@@ -60,7 +64,9 @@ const MarketValueCardSet = ({ value }) => {
       <span className={`close-value ${closeColor}`}>
         {randomizedData.close}
       </span>
-      <span className="time">{randomizedData.time}</span>
+      <span className="time">
+        {convertToUSMarketTime(values.timestamp[currentIndex])}
+      </span>
       <div className="dynamic-data">
         <div className="data-item">
           <span className="label">High</span>

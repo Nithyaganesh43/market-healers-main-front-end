@@ -9,16 +9,15 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
-  /* position: relative; */
+  align-items: center; 
+  
 `;
 
 const Home = () => {
   return (
     <Container>
       <MainSection />
-      <Service />
-      
+      <Service /> 
       <About />
     </Container>
   );

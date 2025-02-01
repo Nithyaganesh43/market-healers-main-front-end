@@ -21,6 +21,7 @@ const Waves = styled.img`
   position: absolute;
   top: -1rem;
   z-index:1;
+  
 `;
 
 const Main = styled.div`

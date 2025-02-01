@@ -1,12 +1,7 @@
-function isThreeHoursOlder(lastUpdatedStr) {
-  const lastUpdated = new Date(
-    lastUpdatedStr.split('-').reverse().join('-') +
-      'T' +
-      lastUpdatedStr.split(' ')[1]
-  );
-  const now = new Date();
-  const diff = now - lastUpdated;
-  return diff >= 6 * 60 * 60 * 1000;  
+function isOneDayOlder(lastUpdatedStr) {
+  const lastUpdated = new Date(lastUpdatedStr);
+  const now = new Date();  
+  return now.toLocaleDateString()!=lastUpdated.toLocaleDateString();
 }
 
 export async function getNewsData(setMainNewsData, setloading, setNewsData) {
@@ -14,14 +9,8 @@ export async function getNewsData(setMainNewsData, setloading, setNewsData) {
   if (news) {
     try {
       news = JSON.parse(news);
-      if (
-        news &&
-        !isThreeHoursOlder(
-          news.data.lastUpdated.date + ' ' + news.data.lastUpdated.time
-        )
-      ) {
+      if (news && !isOneDayOlder(news.data.lastUpdated.date)) {
         setloading(false);
-        console.log(news.data.lastUpdated); 
         setMainNewsData(Object.values(news.data.data));
         setNewsData(Object.values(news.data.data));
         return;
@@ -33,8 +22,12 @@ export async function getNewsData(setMainNewsData, setloading, setNewsData) {
 
   try {
     setloading(true);
+    console.log('fetched');
     let data = await fetch(
-      'https://server.markethealers.com/MarketHealers/getNewsData'
+      'https://server.markethealers.com/MarketHealers/getNewsData',
+      { 
+        credentials: 'include',  
+      }
     );
     if (!data.ok) {
       throw new Error('Failed to fetch news data');
@@ -48,4 +41,4 @@ export async function getNewsData(setMainNewsData, setloading, setNewsData) {
   } catch (error) {
     console.error('Error fetching news data:', error);
   }
-}
+} 

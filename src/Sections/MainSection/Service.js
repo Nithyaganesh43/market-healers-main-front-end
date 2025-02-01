@@ -10,49 +10,65 @@ const rotating = keyframes`
 `;
 
 const Wrapper = styled.div`
-  width: 150vw;
+  width: 100vw;
   height: 100vh;
   display: flex;
   justify-content: center;
+  align-items: center;
   position: relative;
   overflow: hidden;
-  background: black;
-  &::before,
-  &::after {
+  background: linear-gradient(to right, black, black);
+  background-image: url('https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+
+  &::before {
     content: '';
     position: absolute;
     top: 0;
-    bottom: 0;
-    background: linear-gradient(to right, black, transparent);
-    z-index: 20;
-  }
-  &::before {
     left: 0;
-  }
-  &::after {
     right: 0;
-    background: linear-gradient(to left, black, transparent);
+    bottom: 0;
+    background: linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0.8) 0%,
+      rgba(0, 0, 0, 1) 100%
+    );
+    z-index: -1;
   }
+
+  z-index: 10;
 `;
 
 const Inner = styled.div`
   position: absolute;
-  top: 100px;
-  width: 100px;
-  height: 100px;
+  top: 200px;
+  transform: translateY(-50%);
+  width: 150px;
+  height: 80vh;
   transform-style: preserve-3d;
-  animation: ${rotating} 50s linear infinite;
+  animation: ${rotating} 100s linear infinite;
 
+  &:hover {
+    animation-play-state: paused;
+  }
+
+  @media (max-width: 768px) {
+    width: 100px;
+    height: 60vh;
+  }
 `;
+
 
 const Card = styled.div`
   position: absolute;
-  width: 150px;
-  height: 280px;
+  width: 180px;
+  height: 300px;
   border: 2px solid rgba(${({ color }) => color});
   border-radius: 12px;
   transform: rotateY(calc((360deg / 10) * ${({ index }) => index}))
-    translateZ(250px);
+    translateZ(300px); /* Increased distance */
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -64,18 +80,32 @@ const Card = styled.div`
   color: white;
   backdrop-filter: blur(5px);
   backface-visibility: hidden;
+
+  @media (max-width: 768px) {
+    width: 95px;
+    height: 250px;
+    transform: rotateY(calc((360deg / 10) * ${({ index }) => index}))
+      translateZ(150px);
+  }
 `;
 
 const Title = styled.h3`
-  font-size: 14px;
+  font-size: 18px;
   font-weight: bold;
   margin-bottom: 5px;
 `;
 
 const Title1 = styled.h3`
-  font-size: 100px;
+  font-size: 4rem;
   font-weight: bold;
-  margin-bottom: 5px;
+  color: white;
+  text-align: center;
+  position: absolute;
+  top: 10%; /* Moved up */
+
+  @media (max-width: 768px) {
+    font-size: 2.5rem;
+  }
 `;
 
 const Description = styled.p`
@@ -87,45 +117,52 @@ const cardContents = [
   {
     title: 'Stock Market Fundamentals',
     description:
-      'Intro to stock markets, trading basics, market terminology, strategies for beginners.',
+      'Gain a solid foundation in stock market investing with our comprehensive introduction to trading. Learn essential market terminology, trading strategies for beginners, and how to analyze stock performance.',
   },
   {
     title: 'Achieve Financial Freedom',
     description:
-      'Personalized financial planning, passive income insights, long-term wealth strategies.',
+      'Take control of your financial future with personalized financial planning and proven wealth-building strategies. Discover the power of passive income, long-term investment approaches, and smart money management techniques.',
   },
   {
     title: 'Trading Courses',
     description:
-      'Beginner to advanced levels, real-time practice, certification based on skill level.',
+      'Master the art of trading with structured courses for beginners, intermediate traders, and advanced professionals. Engage in real-time market simulations, receive expert mentorship, and earn certification upon completion.',
   },
   {
-    title: 'Investment Advisory',
-    description: 'One-on-one sessions, market insights, analysis.',
+    title: 'Investment Advisory Services',
+    description:
+      'Make informed investment decisions with one-on-one advisory sessions. Our experts provide customized strategies based on your risk appetite and financial goals, along with monthly insights and market analysis.',
   },
   {
-    title: 'Workshops & Webinars',
-    description: 'Monthly live sessions, Q&A with industry experts.',
+    title: 'Workshops and Webinars',
+    description:
+      'Stay updated with the latest financial trends through interactive workshops and webinars. Participate in live Q&A sessions with industry experts and explore cutting-edge investment strategies.',
   },
   {
-    title: 'Portfolio Management',
-    description: 'Analyze and diversify portfolios, risk management guidance.',
+    title: 'Portfolio Management Support',
+    description:
+      'Optimize your investments with expert guidance on diversification and risk management. Learn how to analyze trends, allocate assets effectively, and make data-driven investment decisions.',
   },
   {
-    title: 'Market Trends',
-    description: 'Stay updated with market fluctuations, expert insights.',
+    title: 'Technical and Fundamental Analysis',
+    description:
+      'Develop a keen eye for stock market movements by mastering technical and fundamental analysis. Learn how to interpret price charts, identify trends, and evaluate company financials.',
   },
   {
-    title: 'Financial Planning',
-    description: 'Budgeting, saving, retirement planning strategies.',
+    title: 'Options and Derivatives Trading',
+    description:
+      'Expand your trading expertise with in-depth knowledge of options and derivatives. Understand hedging strategies, leverage, and risk management techniques to enhance your returns.',
   },
   {
-    title: 'Wealth Building',
-    description: 'Long-term investments, compounding strategies.',
+    title: 'Algo Trading and Automation',
+    description:
+      'Step into the future of trading with algorithmic trading and automation. Learn how to develop and deploy automated strategies, utilize AI-driven insights, and enhance efficiency.',
   },
   {
-    title: 'Services',
-    description: 'Comprehensive financial solutions, guidance, and support.',
+    title: 'Cryptocurrency and Blockchain Investments',
+    description:
+      'Explore the dynamic world of cryptocurrencies and blockchain technology. Gain insights into Bitcoin, Ethereum, and altcoins, understand market trends, and learn secure investment strategies.',
   },
 ];
 

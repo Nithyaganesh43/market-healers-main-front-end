@@ -21,7 +21,27 @@ const HomeSection = styled.section`
     padding-left: 4%;
     height: 100vh;
   }
+
+  background-image: url('https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.8);  
+    z-index: 1;
+    filter: blur(0px); 
+  }
+
+  z-index: 10;
 `;
+
 
 const MainContent = styled.div`
   display: flex;
@@ -171,15 +191,15 @@ const HeroSection = () => {
           </div>
         </Lb>
         <Card>
-          <CardContainer>
+          <CardContainer
+              onClick={() => navigate('/news')}>
             <ServiceCard
-              onClick={() => navigate('/news')}
               data={{ prompt: 'Today News', text: 'Click To Read' }}
             />
           </CardContainer>
-          <CardContainer>
+          <CardContainer
+              onClick={() =>{ navigate('/market')}}>
             <ServiceCard
-              onClick={() => navigate('/market')}
               data={{ prompt: 'Live Market Values', text: 'Click To Read' }}
             />
           </CardContainer>

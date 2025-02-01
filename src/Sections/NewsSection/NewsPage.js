@@ -19,7 +19,7 @@ const MainContent = styled.div`
   width: 100%;
   max-width: 1000px;
   margin: 50px auto;
-  margin-left:12vw;
+  margin-left: 12vw;
   display: flex;
   flex-direction: column;
   @media only screen and (max-width: 48em) {
@@ -92,7 +92,7 @@ const Input = styled.input`
   background-color: #fff;
   flex: 1;
   width: 95%;
-  box-sizing: border-box; 
+  box-sizing: border-box;
   &::placeholder {
     color: #999;
   }
@@ -120,46 +120,57 @@ const NewsPage = () => {
     fetchData();
   }, []);
 
-const latestSort = (newsData) => {
-  const allNews = newsData.flatMap((group) => group[0] || []);
-  allNews
-    .filter((news) => news && news.publishedAt)
-    .sort((a, b) => new Date(b.publishedAt) - new Date(a.publishedAt));
+  const removeDuplicates = (newsArray) => {
+    const seenTitles = new Set();
+    return newsArray.filter((news) => {
+      if (!news || !news.title) return false;
+      if (seenTitles.has(news.title)) return false;
+      seenTitles.add(news.title);
+      return true;
+    });
+  };
 
-  const groupedByDay = {};
-  allNews.forEach((news) => {
-    if (news && news.publishedAt) {
-      const day = new Date(news.publishedAt).toISOString().split('T')[0];
-      if (!groupedByDay[day]) groupedByDay[day] = [];
-      groupedByDay[day].push(news);
-    }
-  });
+  const latestSort = (newsData) => {
+    const allNews = newsData.flatMap((group) => group[0] || []);
+    const uniqueNews = removeDuplicates(allNews);
 
-  return Object.values(groupedByDay).map((dayGroup) => [dayGroup]);
-};
+    uniqueNews.sort(
+      (a, b) => new Date(b.publishedAt) - new Date(a.publishedAt)
+    );
 
-
-useEffect(() => {
-  if (search.length > 0) {
-    const filteredData = MainNewsData.map((group) => {
-      if (group && group[0]) {
-        return [
-          group[0].filter(
-            (v) =>
-              v &&
-              (v.title?.toLowerCase().includes(search.toLowerCase()) ||
-                v.description?.toLowerCase().includes(search.toLowerCase()))
-          ),
-        ];
+    const groupedByDay = {};
+    uniqueNews.forEach((news) => {
+      if (news && news.publishedAt) {
+        const day = new Date(news.publishedAt).toISOString().split('T')[0];
+        if (!groupedByDay[day]) groupedByDay[day] = [];
+        groupedByDay[day].push(news);
       }
-      return null;
-    }).filter((group) => group && group[0]?.length > 0);
+    });
 
-    setNewsData(latestSort(filteredData));
-  } else {
-    setNewsData(latestSort(MainNewsData));
-  }
-}, [search, MainNewsData]);
+    return Object.values(groupedByDay).map((dayGroup) => [dayGroup]);
+  };
+
+  useEffect(() => {
+    if (search.length > 0) {
+      const filteredData = MainNewsData.map((group) => {
+        if (group && group[0]) {
+          return [
+            group[0].filter(
+              (v) =>
+                v &&
+                (v.title?.toLowerCase().includes(search.toLowerCase()) ||
+                  v.description?.toLowerCase().includes(search.toLowerCase()))
+            ),
+          ];
+        }
+        return null;
+      }).filter((group) => group && group[0]?.length > 0);
+
+      setNewsData(latestSort(filteredData));
+    } else {
+      setNewsData(latestSort(MainNewsData));
+    }
+  }, [search, MainNewsData]);
 
   return (
     <HomeSection>
@@ -173,21 +184,9 @@ useEffect(() => {
         </FilterContainer>
         <NewsGrid>
           {NewsData.map((group, index) =>
-            group[0].map((item, key) => { 
-              return (
-                <NewsCard
-                  key={`${index}-${key}`}
-                  data={{
-                    content: item.content,
-                    description: item.description,
-                    image: item.image,
-                    publishedAt: item.publishedAt,
-                    source: item.source,
-                    title: item.title,
-                    url: item.url,
-                  }}
-                />
-              );})
+            group[0].map((item, key) => (
+              <NewsCard key={`${index}-${key}`} data={item} />
+            ))
           )}
         </NewsGrid>
       </MainContent>

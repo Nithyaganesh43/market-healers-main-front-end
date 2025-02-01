@@ -1,9 +1,9 @@
-const convertToIST = (timestamp) => {
+const convertToUSMarketTime = (timestamp) => {
   const date = new Date(timestamp * 1000);
-  const options = { timeZone: 'Asia/Kolkata' };
-  const istDate = new Date(date.toLocaleString('en-US', options));
+  const options = { timeZone: 'America/New_York' };
+  const usDate = new Date(date.toLocaleString('en-US', options));
 
-  const day = istDate.getDate();
+  const day = usDate.getDate();
   const suffix =
     day % 10 === 1 && day !== 11
       ? 'st'
@@ -12,32 +12,32 @@ const convertToIST = (timestamp) => {
       : day % 10 === 3 && day !== 13
       ? 'rd'
       : 'th';
-  const month = istDate.toLocaleString('en-US', {
+  const month = usDate.toLocaleString('en-US', {
     month: 'long',
-    timeZone: 'Asia/Kolkata',
+    timeZone: 'America/New_York',
   });
-  const year = istDate.getFullYear();
-  const hours = istDate.getHours();
-  const minutes = String(istDate.getMinutes()).padStart(2, '0');
+  const year = usDate.getFullYear();
+  const hours = usDate.getHours();
+  const minutes = String(usDate.getMinutes()).padStart(2, '0');
   const period = hours >= 12 ? 'PM' : 'AM';
   const hour12 = hours % 12 || 12;
 
   return `${day}${suffix} ${month} ${year} at ${hour12}:${minutes} ${period}`;
 };
-function timeDiff(input) { 
-  let now = new Date();
-  let inputDate = new Date(
-    input.date.split('-').reverse().join('-') + 'T' + input.time
-  );
+
+function timeDiff(input) {
+  let now = new Date(); 
+  let [day, month, year] = input.date.split('-');
+  let formattedDate = `${year}-${month.padStart(2, '0')}-${day.padStart(  2, '0' )}`; 
+  let inputDate = new Date(`${formattedDate}T${input.time}`); 
   return Math.floor((now - inputDate) / 60000);
 }
 
-async function fetchMarketValueData(setIsLoading, setMarketValueData) {
-  // console.log(new Date().toLocaleString());
 
-  let index=0;
+async function fetchMarketValueData(setIsLoading, setMarketValueData) {
+  let index = 0;
   localStorage.setItem('index', index);
-  setIsLoading(true); 
+  setIsLoading(true);
   try {
     const response = await fetch(
       'https://server.markethealers.com/markethealers/getMarketdata'
@@ -45,9 +45,8 @@ async function fetchMarketValueData(setIsLoading, setMarketValueData) {
     if (!response.ok) throw new Error('Failed to fetch market data');
     const data = await response.json();
     setMarketValueData(data?.data || {});
-   
 
-     return timeDiff(data.data.lastUpdated);
+    return timeDiff(data.data.lastUpdated);
   } catch (error) {
     console.error('Error fetching market data:', error.message);
     setMarketValueData({ error: 'Something Went Wrong' });
@@ -61,12 +60,11 @@ function getLastMarketClosedDateAndTime(marketValueData) {
   if (!marketValueData?.data?.[0]?.values?.timestamp?.length) {
     return 'Unavailable';
   }
-  return convertToIST(
+  return convertToUSMarketTime(
     marketValueData.data[0].values.timestamp[
       marketValueData.data[0].values.timestamp.length - 1
     ]
   );
 }
 
-
-export {getLastMarketClosedDateAndTime ,fetchMarketValueData}
+export { getLastMarketClosedDateAndTime, fetchMarketValueData };

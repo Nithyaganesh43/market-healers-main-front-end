@@ -249,7 +249,7 @@ const Header = () => {
         <Nav>
           <Link to="/">Home</Link>
           <Link to="/market">Market</Link>
-          <Link to="/news">News</Link>
+          <Link to="/news">News</Link> 
           <Button
             onClick={() => {
               handleLogOut();

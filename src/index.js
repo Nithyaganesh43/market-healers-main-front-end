@@ -5,7 +5,7 @@ import ReactDOM from 'react-dom/client';
 import Main from './Pages/Main';
 import News from './Pages/News';
 import Market from './Pages/Market';
-import App from './App'; 
+import App from './App';  
 const RootApp = () =>{ 
 
   
@@ -31,7 +31,7 @@ const appRouter = createBrowserRouter([
       {
         path: '/market',
         element: <Market />,
-      },
+      } 
     ],
   },
 ]);
