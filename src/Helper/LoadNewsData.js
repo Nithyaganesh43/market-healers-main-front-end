@@ -23,8 +23,7 @@ export async function getNewsData(setMainNewsData, setloading, setNewsData) {
       news = JSON.parse(news); 
       if ( 
         !isFourHoursApart(news.data.lastUpdated, getCurrentDateObj())
-      ) {
-        console.log('not old news');
+      ) { 
         setloading(false);
         setMainNewsData(Object.values(news.data.data));
         setNewsData(Object.values(news.data.data));

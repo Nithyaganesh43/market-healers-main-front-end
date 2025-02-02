@@ -1,60 +1,21 @@
 import React, { useState, useEffect, useContext } from 'react';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
+import { FiRefreshCw } from 'react-icons/fi';
 import NewsCard from '../../components/NewsCard/NewsCard';
 import { getNewsData } from '../../Helper/LoadNewsData';
 import { LoadingContext } from '../../Context/LoadingContext';
 
-const HomeSection = styled.section`
-  width: 100%;
-  min-height: 100vh;
-  padding: 0 5%;
-  background: linear-gradient(270deg, rgb(65, 10, 105), #000000);
-  background-size: 400% 400%;
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
+const rotate = keyframes`
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
 `;
 
-const MainContent = styled.div`
-  width: 100%;
-  max-width: 1000px;
-  margin: 50px auto;
-  margin-left: 12vw;
-  display: flex;
-  flex-direction: column;
-  @media only screen and (max-width: 48em) {
-    margin: auto;
-  }
-`;
-
-const NewsGrid = styled.div`
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 0rem 1rem;
-  margin-top: 1rem;
-  width: 90%;
-  @media only screen and (max-width: 768px) {
-    grid-template-columns: repeat(1, 1fr);
-    margin-top: 5vw;
-    margin-left: 5vw;
-  }
-  @media only screen and (max-width: 480px) {
-    display: flex;
-    flex-direction: column;
-    margin-top: 10vw;
-    padding: 0;
-    margin-bottom: 10rem;
-    margin-left: 5vw;
-  }
-`;
-
-const Title = styled.h1`
-  line-height: 1.2;
-  padding: 0.5rem 0;
-  font-size: calc(2rem + 1.5vw);
-  color: white;
-  @media only screen and (max-width: 48em) {
-    font-size: calc(1rem + 1vw);
+const ReloadIcon = styled(FiRefreshCw)`
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: transform 1s ease;
+  &:active {
+    animation: ${rotate} 1s linear;
   }
 `;
 
@@ -74,12 +35,6 @@ const FilterContainer = styled.div`
   padding: 10px 20px;
   box-sizing: border-box;
   align-items: center;
-
-  @media only screen and (max-width: 480px) {
-    width: 100%;
-    padding: 10px 10px;
-    gap: 5px;
-  }
 `;
 
 const Input = styled.input`
@@ -96,14 +51,8 @@ const Input = styled.input`
   &::placeholder {
     color: #999;
   }
-
   &:focus {
     border-color: #8e24aa;
-  }
-
-  @media only screen and (max-width: 480px) {
-    flex: 2;
-    position: fixed;
   }
 `;
 
@@ -114,43 +63,17 @@ const NewsPage = () => {
   const { setloading } = useContext(LoadingContext);
 
   useEffect(() => {
-
-    if(window.localStorage.getItem('news')!='yes'){
+    if (window.localStorage.getItem('news') !== 'yes') {
       const fetchData = async () => {
         await getNewsData(setMainNewsData, setloading, setNewsData);
       };
-      fetchData()
+      fetchData();
     }
-  },[setMainNewsData]);
+  }, [setMainNewsData]);
 
-  const removeDuplicates = (newsArray) => {
-    const seenTitles = new Set();
-    return newsArray.filter((news) => {
-      if (!news || !news.title) return false;
-      if (seenTitles.has(news.title)) return false;
-      seenTitles.add(news.title);
-      return true;
-    });
-  };
-
-  const latestSort = (newsData) => {
-    const allNews = newsData.flatMap((group) => group[0] || []);
-    const uniqueNews = removeDuplicates(allNews);
-
-    uniqueNews.sort(
-      (a, b) => new Date(b.publishedAt) - new Date(a.publishedAt)
-    );
-
-    const groupedByDay = {};
-    uniqueNews.forEach((news) => {
-      if (news && news.publishedAt) {
-        const day = new Date(news.publishedAt).toISOString().split('T')[0];
-        if (!groupedByDay[day]) groupedByDay[day] = [];
-        groupedByDay[day].push(news);
-      }
-    });
-
-    return Object.values(groupedByDay).map((dayGroup) => [dayGroup]);
+  const reloadPage = () => {
+    window.localStorage.setItem('news', '');
+    window.location.reload();
   };
 
   useEffect(() => {
@@ -168,32 +91,29 @@ const NewsPage = () => {
         }
         return null;
       }).filter((group) => group && group[0]?.length > 0);
-
-      setNewsData(latestSort(filteredData));
+      setNewsData(filteredData);
     } else {
-      setNewsData(latestSort(MainNewsData));
+      setNewsData(MainNewsData);
     }
   }, [search, MainNewsData]);
 
   return (
-    <HomeSection>
-      <MainContent>
-        <Title>Market Healers News</Title>
-        <FilterContainer>
-          <Input
-            onChange={(e) => setSearch(e.target.value)}
-            placeholder="Search news"
-          />
-        </FilterContainer>
-        <NewsGrid>
-          {NewsData.map((group, index) =>
-            group[0].map((item, key) => (
-              <NewsCard key={`${index}-${key}`} data={item} />
-            ))
-          )}
-        </NewsGrid>
-      </MainContent>
-    </HomeSection>
+    <div>
+      <FilterContainer>
+        <Input
+          onChange={(e) => setSearch(e.target.value)}
+          placeholder="Search news"
+        />
+        <ReloadIcon onClick={reloadPage} />
+      </FilterContainer>
+      <div>
+        {NewsData.map((group, index) =>
+          group[0].map((item, key) => (
+            <NewsCard key={`${index}-${key}`} data={item} />
+          ))
+        )}
+      </div>
+    </div>
   );
 };
 
