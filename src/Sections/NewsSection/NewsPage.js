@@ -118,7 +118,7 @@ const NewsPage = () => {
       await getNewsData(setMainNewsData, setloading, setNewsData);
     };
     fetchData();
-  }, []);
+  },[setMainNewsData]);
 
   const removeDuplicates = (newsArray) => {
     const seenTitles = new Set();
