@@ -114,10 +114,13 @@ const NewsPage = () => {
   const { setloading } = useContext(LoadingContext);
 
   useEffect(() => {
-    const fetchData = async () => {
-      await getNewsData(setMainNewsData, setloading, setNewsData);
-    };
-    fetchData();
+
+    if(window.localStorage.getItem('news')!='yes'){
+      const fetchData = async () => {
+        await getNewsData(setMainNewsData, setloading, setNewsData);
+      };
+      fetchData()
+    }
   },[setMainNewsData]);
 
   const removeDuplicates = (newsArray) => {
