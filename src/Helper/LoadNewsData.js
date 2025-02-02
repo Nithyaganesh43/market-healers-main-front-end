@@ -24,9 +24,9 @@ export async function getNewsData(setMainNewsData, setloading, setNewsData) {
       if ( 
         !isFourHoursApart(news.data.lastUpdated, getCurrentDateObj())
       ) { 
-        setloading(false);
         setMainNewsData(Object.values(news.data.data));
         setNewsData(Object.values(news.data.data));
+        setloading(false);
         return;
       }
     } catch (e) {
