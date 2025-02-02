@@ -24,6 +24,7 @@ export async function getNewsData(setMainNewsData, setloading, setNewsData) {
       if ( 
         !isFourHoursApart(news.data.lastUpdated, getCurrentDateObj())
       ) {
+        console.log('not old news');
         setloading(false);
         setMainNewsData(Object.values(news.data.data));
         setNewsData(Object.values(news.data.data));
