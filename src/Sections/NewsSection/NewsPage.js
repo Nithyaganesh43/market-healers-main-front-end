@@ -112,36 +112,22 @@ const NewsPage = () => {
   const [NewsData, setNewsData] = useState([]);
   const [search, setSearch] = useState('');
   const { setloading } = useContext(LoadingContext);
-console.log("News"+NewsData);console.log("\nMain"+MainNewsData);
 
   useEffect(() => {
- 
-      const fetchData = async () => {
-        await getNewsData(setMainNewsData, setloading, setNewsData);
-      };
-      fetchData() 
-  },[setMainNewsData]);
-
-  const removeDuplicates = (newsArray) => {
-    const seenTitles = new Set();
-    return newsArray.filter((news) => {
-      if (!news || !news.title) return false;
-      if (seenTitles.has(news.title)) return false;
-      seenTitles.add(news.title);
-      return true;
-    });
-  };
+    const fetchData = async () => {
+      await getNewsData(setMainNewsData, setloading, setNewsData);
+    };
+    fetchData();
+  }, []);
 
   const latestSort = (newsData) => {
     const allNews = newsData.flatMap((group) => group[0] || []);
-    const uniqueNews = removeDuplicates(allNews);
-
-    uniqueNews.sort(
-      (a, b) => new Date(b.publishedAt) - new Date(a.publishedAt)
-    );
+    allNews
+      .filter((news) => news && news.publishedAt)
+      .sort((a, b) => new Date(b.publishedAt) - new Date(a.publishedAt));
 
     const groupedByDay = {};
-    uniqueNews.forEach((news) => {
+    allNews.forEach((news) => {
       if (news && news.publishedAt) {
         const day = new Date(news.publishedAt).toISOString().split('T')[0];
         if (!groupedByDay[day]) groupedByDay[day] = [];
@@ -172,7 +158,7 @@ console.log("News"+NewsData);console.log("\nMain"+MainNewsData);
     } else {
       setNewsData(latestSort(MainNewsData));
     }
-  }, [search]);
+  }, [search, MainNewsData]);
 
   return (
     <HomeSection>
@@ -186,9 +172,22 @@ console.log("News"+NewsData);console.log("\nMain"+MainNewsData);
         </FilterContainer>
         <NewsGrid>
           {NewsData.map((group, index) =>
-            group[0].map((item, key) => (
-              <NewsCard key={`${index}-${key}`} data={item} />
-            ))
+            group[0].map((item, key) => {
+              return (
+                <NewsCard
+                  key={`${index}-${key}`}
+                  data={{
+                    content: item.content,
+                    description: item.description,
+                    image: item.image,
+                    publishedAt: item.publishedAt,
+                    source: item.source,
+                    title: item.title,
+                    url: item.url,
+                  }}
+                />
+              );
+            })
           )}
         </NewsGrid>
       </MainContent>
