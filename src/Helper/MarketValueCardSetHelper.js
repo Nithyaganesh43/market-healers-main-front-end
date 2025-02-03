@@ -1,21 +1,18 @@
 const getValueOrDefault = (value) =>
   value != null ? Number(value).toFixed(3) : ' - - ';
 
-export const convertToUSMarketTime = (timestamp) => {
-  if (!timestamp) return ' - - ';
+const convertToIST = (timestamp) => {
   const date = new Date(timestamp * 1000);
   const options = {
-    timeZone: 'America/New_York',
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
+    timeZone: 'Asia/Kolkata',
     hour: '2-digit',
     minute: '2-digit',
     second: '2-digit',
     hour12: true,
   };
-  return date.toLocaleString('en-US', options);
+  return date.toLocaleTimeString('en-IN', options);
 };
+
 export const updateRealData = (
   values,
   currentIndex,
@@ -24,57 +21,30 @@ export const updateRealData = (
   setPrevCloseValue,
   setCurrentIndex
 ) => {
-  if (!values || !values.timestamp?.[currentIndex]) return;   
   const realData = {
-    time: convertToUSMarketTime(values.timestamp[currentIndex]),
-    high: getValueOrDefault(values.high?.[currentIndex]),
-    low: getValueOrDefault(values.low?.[currentIndex]),
-    open: getValueOrDefault(values.open?.[currentIndex]),
-    close: getValueOrDefault(values.close?.[currentIndex]),
+    time: convertToIST(values.timestamp[currentIndex]),
+    high: getValueOrDefault(values.high[currentIndex]),
+    low: getValueOrDefault(values.low[currentIndex]),
+    open: getValueOrDefault(values.open[currentIndex]),
+    close: getValueOrDefault(values.close[currentIndex]),
   };
-
   setLatestData(realData);
   setRandomizedData(realData);
-
-  if (realData.close !== ' - - ') {
-    setPrevCloseValue(parseFloat(realData.close));
-  }
-
-  if (currentIndex < values.timestamp.length - 1) {
+  setPrevCloseValue(parseFloat(realData.close));
+  if (currentIndex < values.timestamp.length) {
     setCurrentIndex((prevIndex) => prevIndex + 1);
   }
 };
 
 export const updateLastData = (values, setRandomizedData) => {
-  if (
-    values &&
-    Array.isArray(values.timestamp) &&
-    values.timestamp.length > 0 &&
-    values.high &&
-    values.low &&
-    values.open &&
-    values.close
-  ) {
-    const lastIndex = values.timestamp.length - 1;
-
-    const realData = {
-      time: convertToUSMarketTime(values.timestamp[lastIndex]),
-      high: getValueOrDefault(values.high[lastIndex]),
-      low: getValueOrDefault(values.low[lastIndex]),
-      open: getValueOrDefault(values.open[lastIndex]),
-      close: getValueOrDefault(values.close[lastIndex]),
-    };
-    setRandomizedData(realData);
-  } else {
-    console.warn('Invalid or empty data provided to updateLastData:', values);
-    setRandomizedData({
-      time: ' - - ',
-      high: ' - - ',
-      low: ' - - ',
-      open: ' - - ',
-      close: ' - - ',
-    });
-  }
+  const realData = {
+    time: convertToIST(values.timestamp[values.timestamp.length - 1]),
+    high: getValueOrDefault(values.high[values.timestamp.length - 1]),
+    low: getValueOrDefault(values.low[values.timestamp.length - 1]),
+    open: getValueOrDefault(values.open[values.timestamp.length - 1]),
+    close: getValueOrDefault(values.close[values.timestamp.length - 1]),
+  };
+  setRandomizedData(realData);
 };
 
 export const applyRandomChanges = (
@@ -84,8 +54,6 @@ export const applyRandomChanges = (
   prevCloseValue,
   currentIndex
 ) => {
-  if (!latestData) return;  
-
   if (currentIndex > 15) {
     setCloseColor('neutral');
     return;
@@ -95,44 +63,47 @@ export const applyRandomChanges = (
     const inValFilter = (num) =>
       Number(
         num
-          ?.toString()
+          .toString()
           .replace(/[^1-9]/g, '')
           .slice(-3)
           .slice(-1)
-      ) || 0;  
-
+      );
     const inVal = inValFilter(num);
     const now = new Date();
     const seconds = now.getSeconds();
-
-    return (
-      (seconds % 2 === 0 ? inVal * 10 + seconds : 0 - (inVal * 10 + seconds)) *
-      0.001
-    );
+    if (inVal % 2 == 0) {
+      return (
+        (seconds % 2 == 0 ? inVal * 10 + seconds : inVal * 10 + seconds) * 0.001
+      );
+    } else {
+      return (
+        (seconds % 2 == 0 ? inVal * 10 + seconds : 0 - (inVal * 10 + seconds)) *
+        0.001
+      );
+    }
   }
 
   const alteredData = {
     ...latestData,
     high: getValueOrDefault(
-      parseFloat(latestData.high || 0) + calculateParityValue(latestData.high)
+      parseFloat(latestData.high) + calculateParityValue(latestData.high)
     ),
     low: getValueOrDefault(
-      parseFloat(latestData.low || 0) + calculateParityValue(latestData.low)
+      parseFloat(latestData.low) + calculateParityValue(latestData.low)
     ),
     open: getValueOrDefault(
-      parseFloat(latestData.open || 0) + calculateParityValue(latestData.open)
+      parseFloat(latestData.open) + calculateParityValue(latestData.open)
     ),
     close: getValueOrDefault(
-      parseFloat(latestData.close || 0) + calculateParityValue(latestData.close)
+      parseFloat(latestData.close) + calculateParityValue(latestData.close)
     ),
   };
   setRandomizedData(alteredData);
 
   if (prevCloseValue !== null) {
-    const alteredClose = parseFloat(alteredData.close);
-    if (alteredClose > prevCloseValue) {
+    if (parseFloat(alteredData.close) > prevCloseValue) {
       setCloseColor('green');
-    } else if (alteredClose < prevCloseValue) {
+    } else if (parseFloat(alteredData.close) < prevCloseValue) {
       setCloseColor('red');
     } else {
       setCloseColor('neutral');

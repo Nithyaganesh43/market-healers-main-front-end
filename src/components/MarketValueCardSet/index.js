@@ -4,11 +4,11 @@ import {
   updateRealData,
   updateLastData,
   applyRandomChanges,
-  convertToUSMarketTime,
 } from '../../Helper/MarketValueCardSetHelper';
 
 const MarketValueCardSet = ({ value }) => {
   const { meta, values } = value.value;
+
   const [currentIndex, setCurrentIndex] = useState(
     Number(localStorage.getItem('index'))
   );
@@ -69,15 +69,7 @@ const MarketValueCardSet = ({ value }) => {
       <span className={`close-value ${closeColor}`}>
         {randomizedData.close}
       </span>
-      <span className="time">
-        {values.timestamp
-          ? value.Market
-            ? convertToUSMarketTime(values.timestamp[currentIndex])
-            : convertToUSMarketTime(
-                values.timestamp[values?.timestamp.length - 1]
-              )
-          : ''}
-      </span>
+      <span className="time">{randomizedData.time}</span>
       <div className="dynamic-data">
         <div className="data-item">
           <span className="label">High</span>
