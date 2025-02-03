@@ -31,7 +31,7 @@ export async function getNewsData(setMainNewsData, setloading, setNewsData) {
       console.log("less then 4h")
         setMainNewsData(Object.values(news.data.data));
         setNewsData(Object.values(news.data.data));
-        console.log("Loader"+Object.values(news) );
+        console.log('Loader' + Object.values(news.data.data));
         setloading(false);
         return;
       }

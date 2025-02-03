@@ -112,7 +112,7 @@ const NewsPage = () => {
   const [NewsData, setNewsData] = useState([]);
   const [search, setSearch] = useState('');
   const { setloading } = useContext(LoadingContext);
-console.log("News"+NewsData+"\nMain");console.log(MainNewsData);
+console.log("News"+NewsData);console.log("\nMain"+MainNewsData);
 
   useEffect(() => {
  
