@@ -24,6 +24,7 @@ export async function getNewsData(setMainNewsData, setloading, setNewsData) {
       if ( 
         !isFourHoursApart(news.data.lastUpdated, getCurrentDateObj())
       ) { 
+        console.log("local news ea ok")
         setMainNewsData(Object.values(news.data.data));
         setNewsData(Object.values(news.data.data));
         setloading(false);
@@ -47,9 +48,7 @@ export async function getNewsData(setMainNewsData, setloading, setNewsData) {
       throw new Error('Failed to fetch news data');
     }
     data = await data.json();
-    localStorage.setItem('news', JSON.stringify(data));
-    setMainNewsData(Object.values(data.data.data));
-    setNewsData(Object.values(data.data.data));
+    localStorage.setItem('news', JSON.stringify(data)); 
 
     setloading(false);
   } catch (error) {
