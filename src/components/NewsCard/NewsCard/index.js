@@ -1,6 +1,10 @@
+import { useEffect, useState } from 'react';
 import './styles.css';
 
 const NewsCard = (data) => {  
+  const [img, setimg] = useState(
+    'https://miro.medium.com/v2/resize:fit:640/format:webp/1*t8ZaGUP8uXuTTsWuiKNdyA.gif'
+  );
   const { description, image, publishedAt,   title, url } = data.data;
  function toReadableDate(dateStr) {
    const options = {
@@ -13,9 +17,17 @@ const NewsCard = (data) => {
    };
    return new Date(dateStr).toLocaleString('en-US', options);
  }
+ useEffect(async () => {
+   const im = await fetch(image);
+   if (im.ok) {
+     setimg(im);
+   } else {
+     setimg(null);
+   }
+ }, []);
   return (
     <div className="card456">
-      {image ?< img src={image} alt="Image" /> :""}
+      {img ?< img src={image} alt="Image" /> :""}
       <div className="card-heading456">{title}</div>
       <div className="card-description456">{description}</div>
       <div className="card-meta456">{toReadableDate(publishedAt)}</div>
