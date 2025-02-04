@@ -17,14 +17,9 @@ const NewsCard = (data) => {
    };
    return new Date(dateStr).toLocaleString('en-US', options);
  }
- useEffect(async () => {
-   const im = await fetch(image);
-   if (im.ok) {
-     setimg(image);
-   } else {
-     setimg(null);
-   }
- }, []);
+ useEffect(async () => {  
+     setimg(image);  
+ },[]);
   return (
     <div className="card456">
       {img ?< img src={img} alt="Image" /> :""}
