@@ -15,7 +15,7 @@ const NewsCard = (data) => {
  }
   return (
     <div className="card456">
-      <img src={image} alt="Image" />
+      {image ?< img src={image} alt="Image" /> :""}
       <div className="card-heading456">{title}</div>
       <div className="card-description456">{description}</div>
       <div className="card-meta456">{toReadableDate(publishedAt)}</div>
