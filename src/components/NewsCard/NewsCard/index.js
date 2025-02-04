@@ -20,7 +20,7 @@ const NewsCard = (data) => {
  useEffect(async () => {
    const im = await fetch(image);
    if (im.ok) {
-     setimg(im);
+     setimg(image);
    } else {
      setimg(null);
    }
