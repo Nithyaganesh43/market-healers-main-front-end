@@ -35,10 +35,8 @@ export async function getNewsData(setMainNewsData, setloading, setNewsData) {
       if (
         news &&
         !isFourHoursApart(news.data.lastUpdated,getCurrentDateObj())
-      ) {
-        console.log("not older")
-        setloading(false);
-        console.log(news.data.lastUpdated);
+      ) { 
+        setloading(false); 
         setMainNewsData(Object.values(news.data.data));
         setNewsData(Object.values(news.data.data));
         return;
@@ -49,8 +47,7 @@ export async function getNewsData(setMainNewsData, setloading, setNewsData) {
   }
 
   try {
-    setloading(true);
-    console.log("fetch")
+    setloading(true); 
     let data = await fetch(
       'https://server.markethealers.com/MarketHealers/getNewsData'
     );
