@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+ 
 import './styles.css';
 
 const NewsCard = (data) => {  
