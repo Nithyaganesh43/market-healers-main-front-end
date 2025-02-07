@@ -31,6 +31,7 @@ export async function getNewsData(setMainNewsData, setloading, setNewsData) {
   let news = localStorage.getItem('news');
   if (news) {
     try {
+
       news = JSON.parse(news);
       if (
         news &&
