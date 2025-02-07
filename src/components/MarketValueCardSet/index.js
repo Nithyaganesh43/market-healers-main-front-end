@@ -8,7 +8,16 @@ import {
 
 const MarketValueCardSet = ({ value }) => {
   const { meta, values } = value.value;
-
+  
+const handleClick=(e)=>{
+  if (meta.symbol=='^NSEI') { 
+      window.location.href =
+        'https://www.tradingview.com/chart/?symbol=NSE%3ANIFTY';
+        return;
+  }
+  window.location.href = `https://www.tradingview.com/chart/?symbol=NSE%3A${meta.symbol.slice(0,-3)}`;
+ 
+}
   const [currentIndex, setCurrentIndex] = useState(
     Number(localStorage.getItem('index'))
   );
@@ -106,6 +115,10 @@ const MarketValueCardSet = ({ value }) => {
       <p>
         <span className="label">52-Week Low:</span> {meta.fiftyTwoWeekLow}
       </p>
+
+      <span className="GoLiveButton" onClick={(e)=>{
+        handleClick(e);
+      }}>Go Live</span>
     </div>
   );
 };
