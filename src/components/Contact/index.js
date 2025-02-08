@@ -35,22 +35,28 @@ const Icons = styled.div`
   display: flex;
   cursor: pointer;
   margin-bottom: 2rem;
+
   a {
-    &:hover {
-      img {
-        filter: invert(20%) sepia(100%) saturate(500%) hue-rotate(570deg)
-          brightness(100%) contrast(97%);
-      }
-    }
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
     &:not(:last-child) {
       margin-right: 1rem;
     }
+
     img {
       width: 2.5rem;
       height: 2.5rem;
+      transition: transform 0.2s ease-in-out;
+
+      &:hover {
+        transform: scale(1.2);
+      }
     }
   }
 `;
+
 const Form = styled.form`
   display: flex;
   flex-direction: column;
@@ -203,7 +209,7 @@ const Contact = () => {
 
   return (
     <ContactSection id="contact">
-      <Title>Get in touch</Title>
+      <Title>Touch With Us.</Title>
       <Icons>
         <a
           href="https://www.linkedin.com/in/market-healers-66a343344/"
@@ -235,12 +241,12 @@ const Contact = () => {
       </Icons>
       <Form>
         <Row>
-          <input id={'name'} name="name" type="text" placeholder="your name" />
+          <input id={'name'} name="name" type="text" placeholder="Your Name" />
           <input
             id={'email'}
             name="email"
             type="email"
-            placeholder="enter email id"
+            placeholder="Enter Email ID"
           />
         </Row>
         <textarea
@@ -248,7 +254,7 @@ const Contact = () => {
           id="text"
           cols="30"
           rows="2"
-          placeholder="your message"></textarea>
+          placeholder="Write Down What's On Your Mind...!"></textarea>
         <div style={{ margin: '0 auto' }}>
           <button
             type="button"

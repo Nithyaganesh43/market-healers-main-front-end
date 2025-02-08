@@ -46,9 +46,9 @@ const Inner = styled.div`
   top: 200px;
   transform: translateY(-50%);
   width: 150px;
-  height: 80vh;
+  height: 500px;
   transform-style: preserve-3d;
-  animation: ${rotating} 200s linear infinite;
+  animation: ${rotating} 100s linear infinite;
 
   &:hover {
     animation-play-state: paused;
@@ -96,7 +96,8 @@ const Title = styled.h3`
 
   padding-top: 10px;
   @media (max-width: 768px) {
-    font-size: 12px;
+    font-size: 10px;
+    padding-top: 10px;
   }
 `;
 
@@ -120,32 +121,46 @@ const Description = styled.p`
     font-size: 10px;
   }
 `;
-
 const cardContents = [
-  {
-    title: 'Stock Market Fundamentals',
-    description:
-      'Gain a solid foundation in stock market investing with our comprehensive introduction to trading. Learn essential market terminology, trading strategies for beginners, and how to analyze stock performance.',
-  },
-  {
-    title: 'Achieve Financial Freedom',
-    description:
-      'Take control of your financial future with personalized financial planning and proven wealth-building strategies. Discover the power of passive income, long-term investment approaches, and smart money management techniques.',
-  },
-  {
-    title: 'Trading Courses',
-    description:
-      'Master the art of trading with structured courses for beginners, intermediate traders, and advanced professionals. Engage in real-time market simulations, receive expert mentorship, and earn certification upon completion.',
-  },
-  {
-    title: 'Investment Advisory Services',
-    description:
-      'Make informed investment decisions with one-on-one advisory sessions. Our experts provide customized strategies based on your risk appetite and financial goals, along with monthly insights and market analysis.',
-  },
   {
     title: 'Workshops and Webinars',
     description:
-      'Stay updated with the latest financial trends through interactive workshops and webinars. Participate in live Q&A sessions with industry experts and explore cutting-edge investment strategies.',
+      'Stay informed about the latest financial trends through interactive workshops and webinars. Engage in live Q&A sessions with industry experts and discover innovative investment strategies.',
+  },
+  {
+    title: 'Options and Derivatives Trading',
+    description:
+      'Enhance your trading expertise with comprehensive knowledge of options and derivatives. Learn about hedging strategies, leverage, and risk management techniques to improve your returns.',
+  },
+  {
+    title: 'Algo Trading and Automation',
+    description:
+      'Explore the future of trading with algorithmic trading and automation. Discover how to develop and implement automated strategies, leverage AI-driven insights, and improve efficiency.',
+  },
+  {
+    title: 'Technical and Fundamental Analysis',
+    description:
+      'Master technical and fundamental analysis to enhance your stock market skills. Learn to interpret price charts, identify trends, and evaluate company financials effectively.',
+  },
+  {
+    title: 'Cryptocurrency and Blockchain Investments',
+    description:
+      'Explore the dynamic world of cryptocurrencies and blockchain technology. Gain insights into Bitcoin, Ethereum, and various altcoins, understand market trends, and learn secure investment strategies.',
+  },
+  {
+    title: 'Achieve Financial Independence',
+    description:
+      'Take control of your financial future with tailored financial planning and proven wealth-building strategies. Discover the benefits of passive income, long-term investment techniques, and effective money management.',
+  },
+  {
+    title: 'Stock Market Fundamentals',
+    description:
+      'Build a strong foundation in stock market investing with our comprehensive introduction to trading. Understand essential market terminology, explore trading strategies for beginners, and learn how to analyze stock performance.',
+  },
+  {
+    title: 'Comprehensive Trading  Programs',
+    description:
+      'Learn the art of trading through structured courses tailored for beginners, intermediate traders, and advanced professionals. Participate in real-time market simulations, receive guidance from experts, and earn a certification upon completion.',
   },
   {
     title: 'Portfolio Management Support',
@@ -153,26 +168,12 @@ const cardContents = [
       'Optimize your investments with expert guidance on diversification and risk management. Learn how to analyze trends, allocate assets effectively, and make data-driven investment decisions.',
   },
   {
-    title: 'Technical and Fundamental Analysis',
+    title: 'Investment Advisory Services',
     description:
-      'Develop a keen eye for stock market movements by mastering technical and fundamental analysis. Learn how to interpret price charts, identify trends, and evaluate company financials.',
-  },
-  {
-    title: 'Options and Derivatives Trading',
-    description:
-      'Expand your trading expertise with in-depth knowledge of options and derivatives. Understand hedging strategies, leverage, and risk management techniques to enhance your returns.',
-  },
-  {
-    title: 'Algo Trading and Automation',
-    description:
-      'Step into the future of trading with algorithmic trading and automation. Learn how to develop and deploy automated strategies, utilize AI-driven insights, and enhance efficiency.',
-  },
-  {
-    title: 'Crypto currency and Blockchain Investments',
-    description:
-      'Explore the dynamic world of cryptocurrencies and blockchain technology. Gain insights into Bitcoin, Ethereum, and altcoins, understand market trends, and learn secure investment strategies.',
+      'Make informed investment decisions with one-on-one advisory sessions. Our experts provide customized strategies based on your risk appetite and financial goals, along with monthly insights and market analysis.',
   },
 ];
+
 
 export default function Service() {
   const colors = [

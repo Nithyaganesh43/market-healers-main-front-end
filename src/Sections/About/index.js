@@ -1,6 +1,6 @@
-import styled, { keyframes } from "styled-components";
-import wave from "../../assets/waves.svg";  
-
+import styled, { keyframes } from 'styled-components';
+import wave from '../../assets/waves.svg';
+import aboutIMG from '../../assets/aboutIMG.jpg';
 const move = keyframes`
 0% { transform: translateY(-5px)         }
     50% { transform: translateY(10px) translateX(10px)        }
@@ -21,7 +21,6 @@ const Waves = styled.img`
   position: absolute;
   top: -1rem;
 `;
- 
 
 const Main = styled.div`
   margin: 0 15rem;
@@ -74,7 +73,6 @@ const Rocket = styled.div`
   }
 `;
 
- 
 const Text = styled.h4`
   font-size: calc(0.5rem + 1vw);
   line-height: 1.5;
@@ -111,39 +109,33 @@ const About = () => {
         <div></div>
         <Content>
           <Rocket>
-            <img
-              src={
-                'https://res.cloudinary.com/dptf0mrro/image/upload/v1736267633/Add_a_heading-removebg-preview_slq8qh.png'
-              }
-              alt=""
-              width="400"
-              height="400"
-            />
+            <img src={aboutIMG} alt="" width="600" height="400" />
           </Rocket>
           <AboutText>
             <Title>About Us</Title>
             <CurvedLine />
             <Text>
-              Welcome to Market Healers, where we turn the mystery of the stock
-              market into a powerful tool for your financial freedom. Founded in
-              2024, our mission is simple: to help you understand the stock
-              market and make smarter, more confident financial decisions.
+              Welcome to Market Healers, where we transform the complexities of
+              the stock market into a powerful resource for your financial
+              independence. Founded in 2024, our mission is straightforward: to
+              help you understand the stock market so you can make smarter, more
+              confident financial decisions.
             </Text>
             <br></br>
             <Title>Mission</Title>
             <Text>
               <CurvedLine />
-              We’re here to guide you on your journey to financial independence,
-              teaching you how to make informed decisions that will shape your
-              future.
+              We are dedicated to guiding you on your journey to financial
+              independence, teaching you how to make informed decisions that
+              will shape your future.
             </Text>
             <br></br>
             <Title>Vision</Title>
             <CurvedLine />
             <Text>
-              Our vision is to build the largest community in India of
-              individuals who are not just financially independent, but
-              financially empowered.
+              Our vision is to create the largest community in India of
+              individuals who are not only financially independent but also
+              financially empowered.
             </Text>
             <div>
               <Circle style={{ backgroundColor: 'var(--black)' }} />
