@@ -2,7 +2,9 @@ import styled from 'styled-components';
 import './btn.css';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
+import Whatsapp from '../../assets/whatsapp.png';
+import LinkedIn from '../../assets/linkedin.png';
 
 const ContactSection = styled.section`
   overflow: hidden;
@@ -216,7 +218,7 @@ const Contact = () => {
           target="_blank"
           rel="noopener noreferrer">
           <img
-            src="https://cdn-icons-png.flaticon.com/512/174/174857.png"
+            src={LinkedIn}
             alt="LinkedIn"
           />
         </a>
@@ -225,7 +227,7 @@ const Contact = () => {
           target="_blank"
           rel="noopener noreferrer">
           <img
-            src="https://cdn-icons-png.flaticon.com/512/733/733585.png"
+            src={Whatsapp}
             alt="WhatsApp"
           />
         </a>
