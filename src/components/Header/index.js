@@ -203,17 +203,12 @@ const MobileMenu = styled.nav`
 const Header = () => {
   
   const handleLogOut = async ()=>{
-   try{ const res = await fetch(
-      'https://server.markethealers.com/markethealers/auth/logout',
-      {
-        method: 'GET',
-        credentials: 'include',
-      });
-      if(res.ok){ 
-        window.location.href = 'https://markethealers.com';
-      }else{
-        window.location.href = 'https://markethealers.com';
-      } 
+
+      window.localStorage.removeItem('login');
+   try{
+     
+    window.location.href = 'https://markethealers.com';
+    
     }catch(e){
         console.log(e);
       }
