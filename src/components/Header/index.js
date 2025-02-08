@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom'; 
+import { Link } from 'react-router-dom';
 import { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 
@@ -140,14 +140,14 @@ const MobileMenu = styled.nav`
   position: fixed;
   top: 10%;
   right: 10%;
-  font-size:18px;
+  font-size: 18px;
   border-radius: 20px;
   z-index: ${(props) => (props.clicked ? '1000' : '-1')};
   background-color: rgba(53, 53, 63, 0.95);
   transition: opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
   a {
     font-weight: 600;
-    font-size:1.3rem;
+    font-size: 1.3rem;
     line-height: 1.5;
     color: var(--white);
     text-decoration: none;
@@ -173,16 +173,16 @@ const MobileMenu = styled.nav`
   @media only Screen and (min-width: 76em) {
     display: none;
   }
-  `;
-  const Button = styled.button`
-  z-index:200;
+`;
+const Button = styled.button`
+  z-index: 200;
   background-color: var(--purple);
   padding: 0.5rem 1rem;
   border-radius: 20px;
   color: var(--white);
   font-weight: 600;
   cursor: pointer;
-  margin:10px;
+  margin: 10px;
   transition: all 0.2s;
   &:hover {
     transform: scale(1.1);
@@ -201,18 +201,17 @@ const MobileMenu = styled.nav`
   }
 `;
 const Header = () => {
-  
-  const handleLogOut = async ()=>{
-
-      window.localStorage.removeItem('login');
-   try{
-     
-    window.location.href = 'https://markethealers.com';
+  const handleLogOut = async () => {
+    try {
+      await fetch('/markethealers/auth/logout', {
+        method: 'GET',
+        credentials: 'include',
+      });
+    } catch (e) {
     
-    }catch(e){
-        console.log(e);
-      }
-  }
+    }
+    window.location.href = 'https://markethealers.com';
+  };
   const [click, setClick] = useState(false);
   const ref = useRef(null);
 
@@ -244,7 +243,7 @@ const Header = () => {
         <Nav>
           <Link to="/">Home</Link>
           <Link to="/market">Market</Link>
-          <Link to="/news">News</Link> 
+          <Link to="/news">News</Link>
           <Button
             onClick={() => {
               handleLogOut();

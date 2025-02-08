@@ -12,7 +12,7 @@ const ServiceCard = ({ data }) => {
     <div
       className={`container`} 
       style={{ cursor: 'pointer' }}
-      onClick={()=>{console.log("click")}}
+    
     >
       <div className="canvas">
         {Array.from({ length: 25 }, (_, i) => (

@@ -22,11 +22,9 @@ const App = () => {
        );
        if (response.ok) {
            setloading(false); 
-       } else{
-        console.log("no0000")
+       } else{ 
        }
-     } catch (error) {  
-console.log(error.message)
+     } catch (error) {   
      }finally{
        
      } 
