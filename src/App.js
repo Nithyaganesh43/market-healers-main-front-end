@@ -27,7 +27,12 @@ const App = () => {
      } catch (error) {  
 
      }finally{
-      window.localStorage.getItem('login')=='true' ? setloading(false) : window.location.href='https://markethealers.com';
+      if (window.localStorage.getItem('login')) {
+        setloading(false);
+      } else {
+         window.location.href = 'https://markethealers.com';
+      } 
+      
      } 
    };
    checkAuth();
