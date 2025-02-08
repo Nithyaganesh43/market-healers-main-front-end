@@ -21,18 +21,14 @@ const App = () => {
          }
        );
        if (response.ok) {
-           setloading(false);
-           window.localStorage.setItem('login','true');
-       } 
+           setloading(false); 
+       } else{
+        console.log("no0000")
+       }
      } catch (error) {  
-
+console.log(error.message)
      }finally{
-      if (window.localStorage.getItem('login')) {
-        setloading(false);
-      } else {
-         window.location.href = 'https://markethealers.com';
-      } 
-      
+       
      } 
    };
    checkAuth();
