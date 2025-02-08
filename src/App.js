@@ -23,10 +23,10 @@ const App = () => {
        if (response.ok) {
            setloading(false); 
        } else{ 
+        throw new Error("Not ok")
        }
      } catch (error) {   
-     }finally{
-       
+      window.location.href='https://markethealers.com';
      } 
    };
    checkAuth();
