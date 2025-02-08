@@ -203,10 +203,13 @@ const Button = styled.button`
 const Header = () => {
   const handleLogOut = async () => {
     try {
-      await fetch('/markethealers/auth/logout', {
-        method: 'GET',
-        credentials: 'include',
-      });
+      await fetch(
+        'https://server.markethealers.com/markethealers/auth/logout',
+        {
+          method: 'GET',
+          credentials: 'include',
+        }
+      );
     } catch (e) {
     
     }
