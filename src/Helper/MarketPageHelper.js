@@ -1,9 +1,9 @@
-const convertToUSMarketTime = (timestamp) => {
+const convertToIndianMarketTime = (timestamp) => {
   const date = new Date(timestamp * 1000);
-  const options = { timeZone: 'America/New_York' };
-  const usDate = new Date(date.toLocaleString('en-US', options));
+  const options = { timeZone: 'Asia/Kolkata' };
+  const indiaDate = new Date(date.toLocaleString('en-US', options));
 
-  const day = usDate.getDate();
+  const day = indiaDate.getDate();
   const suffix =
     day % 10 === 1 && day !== 11
       ? 'st'
@@ -12,13 +12,13 @@ const convertToUSMarketTime = (timestamp) => {
       : day % 10 === 3 && day !== 13
       ? 'rd'
       : 'th';
-  const month = usDate.toLocaleString('en-US', {
+  const month = indiaDate.toLocaleString('en-US', {
     month: 'long',
-    timeZone: 'America/New_York',
+    timeZone: 'Asia/Kolkata',
   });
-  const year = usDate.getFullYear();
-  const hours = usDate.getHours();
-  const minutes = String(usDate.getMinutes()).padStart(2, '0');
+  const year = indiaDate.getFullYear();
+  const hours = indiaDate.getHours();
+  const minutes = String(indiaDate.getMinutes()).padStart(2, '0');
   const period = hours >= 12 ? 'PM' : 'AM';
   const hour12 = hours % 12 || 12;
 
@@ -26,13 +26,15 @@ const convertToUSMarketTime = (timestamp) => {
 };
 
 function timeDiff(input) {
-  let now = new Date(); 
+  let now = new Date();
   let [day, month, year] = input.date.split('-');
-  let formattedDate = `${year}-${month.padStart(2, '0')}-${day.padStart(  2, '0' )}`; 
-  let inputDate = new Date(`${formattedDate}T${input.time}`); 
+  let formattedDate = `${year}-${month.padStart(2, '0')}-${day.padStart(
+    2,
+    '0'
+  )}`;
+  let inputDate = new Date(`${formattedDate}T${input.time}`);
   return Math.floor((now - inputDate) / 60000);
 }
-
 
 async function fetchMarketValueData(setIsLoading, setMarketValueData) {
   let index = 0;
@@ -60,7 +62,7 @@ function getLastMarketClosedDateAndTime(marketValueData) {
   if (!marketValueData?.data?.[0]?.values?.timestamp?.length) {
     return 'Unavailable';
   }
-  return convertToUSMarketTime(
+  return convertToIndianMarketTime(
     marketValueData.data[0].values.timestamp[
       marketValueData.data[0].values.timestamp.length - 1
     ]
