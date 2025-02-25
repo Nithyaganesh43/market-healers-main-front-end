@@ -124,7 +124,7 @@ const Card = styled.div`
 
   @media (max-width: 380px) {
     grid-template-columns: repeat(2, minmax(120px, 1fr));
-    margin-top: 10vw;
+    
     width: 90%;
   }
 `;
@@ -135,20 +135,25 @@ const CardContainer = styled.div`
     width: 190px;
     height: 254px;
     transition: transform 200ms ease-in-out;
- 
-    @media only screen and (max-width: 480px) {
+
+    @media only screen and (max-width: 780px) {
       width: 160px;
       height: 220px;
     }
 
-    @media only screen and (max-width: 300px) {
-      width: 40vw;
-      height: 170px;
+    @media only screen and (max-width: 480px) {
+      width: 150px;
+      height: 200px;
+    }
+
+    @media only screen and (max-width: 380px) {
+      width: 155px;
+      height: 200px;
     }
   }
 
   .container:active {
-    transform: scale(0.95);  
+    transform: scale(0.95);
   }
 `;
 
