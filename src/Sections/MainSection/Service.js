@@ -11,7 +11,7 @@ const rotating = keyframes`
 
 const Wrapper = styled.div`
   width: 100vw;
-  height: 110vh;
+  height: 111vh;
   display: flex;
   justify-content: center;
   align-items: center;

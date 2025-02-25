@@ -135,20 +135,20 @@ const CardContainer = styled.div`
     width: 190px;
     height: 254px;
     transition: transform 200ms ease-in-out;
-
-    @media only screen and (max-width: 42em) {
-      width: 35vw;
-      height: 180px;
+ 
+    @media only screen and (max-width: 480px) {
+      width: 160px;
+      height: 220px;
     }
 
-    @media only screen and (max-width: 30em) {
+    @media only screen and (max-width: 300px) {
       width: 40vw;
       height: 170px;
     }
   }
 
   .container:active {
-    transform: scale(0.95); /* Avoid layout shift */
+    transform: scale(0.95);  
   }
 `;
 
