@@ -142,9 +142,10 @@ const CardContainer = styled.div`
       height: 200px;
     }
 
-    @media only screen and (max-width: 380px) {
-      width: 20vh;
-      height:60vw;
+    @media only screen and (max-width: 370px) {
+    margin-right:-1vw;
+      width: 18vh;
+      height:55vw;
     }
   }
 
