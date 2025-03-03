@@ -108,9 +108,7 @@ const Card = styled.div`
   @media (max-width: 768px) {
     grid-template-columns: repeat(2, minmax(120px, 1fr));
     gap: 1rem;
-
     margin: 15px;
-    margin-top: 0vw;
     width: 90%;
   }
 
@@ -118,13 +116,11 @@ const Card = styled.div`
     grid-template-columns: repeat(2, minmax(120px, 1fr));
     gap: 1rem;
     margin: 15px;
-    margin-top: 0vw;
     width: 90%;
   }
 
   @media (max-width: 380px) {
-    grid-template-columns: repeat(2, minmax(120px, 1fr));
-    
+    grid-template-columns: repeat(2, minmax(100px, 1fr));
     width: 90%;
   }
 `;
@@ -147,8 +143,8 @@ const CardContainer = styled.div`
     }
 
     @media only screen and (max-width: 380px) {
-      width: 155px;
-      height: 200px;
+      width: 20vh;
+      height:60vw;
     }
   }
 
