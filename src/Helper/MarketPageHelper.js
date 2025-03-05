@@ -46,7 +46,7 @@ async function fetchMarketValueData(setIsLoading, setMarketValueData) {
     );
     if (!response.ok) throw new Error('Failed to fetch market data');
     const data = await response.json();
-    console.log(data);
+    // console.log(data);
     setMarketValueData(data?.data || {});
 
     return timeDiff(data.data.lastUpdated);
