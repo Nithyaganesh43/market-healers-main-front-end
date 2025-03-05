@@ -44,9 +44,9 @@ async function fetchMarketValueData(setIsLoading, setMarketValueData) {
     const response = await fetch(
       'https://server.markethealers.com/markethealers/getMarketdata'
     );
-    console.log(response);
     if (!response.ok) throw new Error('Failed to fetch market data');
     const data = await response.json();
+    console.log(data);
     setMarketValueData(data?.data || {});
 
     return timeDiff(data.data.lastUpdated);
