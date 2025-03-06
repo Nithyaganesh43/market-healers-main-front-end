@@ -3,7 +3,7 @@ import { createGlobalStyle } from "styled-components";
 export const GlobalStyle = createGlobalStyle`
 
 :root{
-   --background: #eff7f9;
+   --background:rgb(0, 0, 0);
    --black:#0a0b10;
    --purple:#803bec;
    --pink:#e5a1f8;
@@ -28,7 +28,8 @@ html{
 
 #root{
 
-  background-color:rgb(0, 0, 0);}
+  background-color:rgb(0, 0, 0);
+  }
     body,
     html,
     a {
@@ -77,8 +78,6 @@ html{
     img,svg{
         width:100%;
         height:auto;
-    }
-
-
+    } 
 `;
  

@@ -4,10 +4,11 @@ import { LoadingProvider } from './Context/LoadingContext';
 import ReactDOM from 'react-dom/client';  
 import { lazy, Suspense } from 'react';
 
-const Main = lazy(() => import('./Pages/Main'));
-const News = lazy(() => import('./Pages/News'));
-const Market = lazy(() => import('./Pages/Market'));
-const App = lazy(() => import('./App'));
+import Main from './Pages/Main';
+import News from './Pages/News';
+import Market from './Pages/Market';
+import App from './App';
+
 const RootApp = () =>{ 
 
   
